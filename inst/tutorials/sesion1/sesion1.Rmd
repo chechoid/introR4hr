@@ -374,7 +374,7 @@ Las funciones que vimos en el curso (que no son todas las del paquete) son:
 
 Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl +Shift +M* en Windows, o *Cmd + Shift + M* en Mac.
 
-A partir de la versión 4.1.0 de R, hay una versión nativa de R del *pipe* cuyo símbolo es `|>` pero en este curso utilizaremos la versión del paquete `dplyr`. 
+A partir de la versión 4.1.0 de R, hay una versión nativa de R del *pipe* cuyo símbolo es `|>` pero en este curso utilizaremos la versión del paquete `dplyr`.
 
 Lo que nos permite este *pipe* o *tubo* es escribir los códigos en secuencias, haciendo muchísimo más fácil escribir y leer secuencias de funciones que incluyan varios pasos.
 
@@ -386,7 +386,7 @@ Imaginemos que queremos comprar regalos por el día del niño a todos los emplea
 
 3.  Ordenar los resultados por `AREA`.
 
-Veamos cómo se ve el código de R sin el uso del pipe `%>%`: 
+Veamos cómo se ve el código de R sin el uso del pipe `%>%`:
 
 ```{r ej3, echo=TRUE, eval=FALSE}
 
@@ -395,6 +395,7 @@ arrange(filter(select(nomina, AREA,ID, HIJOS), HIJOS > 0), AREA)
 ```
 
 Ahora veamos el siguiente código, que logra lo mismo que antes, pero usando el pipe `%>%`
+
 ```{r ej4, echo=TRUE, eval=FALSE}
 # Ejemplo de funciones anidadas usando el pipe
 nomina %>% 
@@ -405,22 +406,22 @@ nomina %>%
 
 ¿Cuál te parece la forma más sencilla de entender la secuencia de análisis?
 
-## Ejercicios
+## Unir datos con left_join()
 
-```{r fuente, echo = FALSE, warning=FALSE, message=FALSE}
+```{r fuente, warning=FALSE, message=FALSE}
 library(openxlsx)
 library(tidyverse)
 
-plantel <- read.xlsx("Nomina.xlsx")
-salarios <- read.xlsx("Puestos.xlsx")
+carpeta <- "inst/tutorials/sesion1/"
+
+plantel <- read.xlsx(paste0(carpeta, "plantel.xlsx"))
+salarios <- read.xlsx(paste0(carpeta, "puestos.xlsx"))
 
 mensualizados <- plantel %>% 
   left_join(salarios, by ="ID") %>% 
   filter(!is.na(PUESTO))
 
 ```
-
-### Unir datos con left_join()
 
 Tenemos dos dataframes, uno con información general de los empleados. El dataframe `plantel` contiene 8 variables:
 
@@ -440,9 +441,10 @@ Tenemos dos dataframes, uno con información general de los empleados. El datafr
 
 -   N_CATEG: El nombre de cada categoría.
 
-    Veamos la estructura del dataframe.
+Veamos la estructura del dataframe.
 
-```{r echo=TRUE}
+```{r str1, exercise = TRUE, exercise.setup = "fuente"}
+#Correr este código
 str(plantel)
 ```
 
@@ -454,9 +456,9 @@ El siguiente dataframe, `salarios` contiene los siguientes campos:
 
 -   SUELDO: La remuneración básica mensual de cada empleado.
 
-Prestá atención a la estructura del archivo y contesta la pregunta.
+Prestá atención a la estructura del archivo y contesta la siguiente pregunta.
 
-```{r echo=TRUE}
+```{r str2, exercise = TRUE, exercise.setup = "fuente"}
 str(salarios)
 ```
 
@@ -492,18 +494,22 @@ empleados <- left____(_____, _____, by = "ID")
 empleados <- left_join(plantel, salarios, by = "ID")
 ```
 
-### select()
+Hay muchos tipos de `join`, por ejemplo `right_join`, `inner_join`, `anti_join`, `full_join`, que no serán parte de este curso.
+
+## select()
 
 Con la función `select()` podemos elegir las columnas que nos interesa trabajar. Por ejemplo, prueba de correr la función `str()` con el nuevo dataframe `empleados`.
 
-```{r str, exercise = TRUE, exercise.lines = 5}
+Esta es una función particularmente útil cuando trabajamos con datasets muy grandes que contienen muchas columnas y filas para mejorar los tiempos de procesamiento de datos.
+
+```{r str, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
 # Corre esta línea de código
 str(empleados)
 ```
 
 Las variables `ANTIGUEDAD`, `EDAD`, `ESTADO_CIVIL` e `HIJOS` no tienen mucho sentido para un análisis salarial. En el próximo ejercicio, selecciona las columnas `ID`, `AREA`, `PUESTO`, `SUELDO` y guarda la selección en un objeto llamado `mensuales.`
 
-```{r select, exercise = TRUE, exercise.lines = 5}
+```{r select, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
 mensuales <- empleados %>% 
   _______(___, ___, ____, ____)
 ```
