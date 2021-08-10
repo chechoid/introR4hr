@@ -11,6 +11,7 @@ License: `use_gpl2_license()`
 Encoding: UTF-8
 Imports:
   funModeling,
+  gt,
   openxlsx,  
   scales,
   tidyverse,

@@ -7,9 +7,24 @@ runtime: shiny_prerendered
 description: "Tutorial de la Clase 1 del Curso Introducción a R para RRHH"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+
+# Datasets
+library(openxlsx)
+library(tidyverse)
+
+#carpeta <- "inst/tutorials/sesion1/"
+
+plantel <- read.xlsx("plantel.xlsx")
+salarios <- read.xlsx("puestos.xlsx")
+
+empleados <- left_join(plantel, salarios, by = "ID")
+
+mensualizados <- plantel %>% 
+  left_join(salarios, by ="ID") %>% 
+  filter(!is.na(PUESTO))
 ```
 
 ## Curso Introducción a R para RRHH
@@ -42,7 +57,7 @@ Muchas gracias!
 
 En esta primera sección vamos a conocer algunos conceptos que son frecuentes de ver, leer y escuchar entre usuarios y usuarias de R.
 
-Este [mapa conceptual](https://miro.com/app/board/o9J_l3b1EgY=/) contiene algunos de los principales elementos para que te familiarices.
+Este [mapa conceptual](https://miro.com/app/board/o9J_l2nqRnM=/) contiene algunos de los principales elementos para que te familiarices.
 
 ### RStudio
 
@@ -51,7 +66,7 @@ Para programar en R es recomendable contar con dos softwares:
 -   [R](https://cran.r-project.org/): Es el motor que realiza la carga de datos y su análisis.
 -   [RStudio](https://www.rstudio.com/products/rstudio/download/): Es una interfase que nos permite interactuar fácilmente con R, ver resultados y gestionar proyectos.
 
-En el caso que tengas una computadora del trabajo, o R funcione muy lento podés también usar la versión gratuita de [RStudio Cloud](https://rstudio.cloud/).
+En el caso que tengas una computadora del trabajo que no tengas permiso para instalar programas, o que R funcione muy lento podés también usar la versión gratuita de [RStudio Cloud](https://rstudio.cloud/).
 
 ### Las ventanas de RStudio
 
@@ -408,21 +423,6 @@ nomina %>%
 
 ## Unir datos con left_join()
 
-```{r fuente, warning=FALSE, message=FALSE}
-library(openxlsx)
-library(tidyverse)
-
-#carpeta <- "inst/tutorials/sesion1/"
-
-plantel <- read.xlsx("plantel.xlsx")
-salarios <- read.xlsx("puestos.xlsx")
-
-mensualizados <- plantel %>% 
-  left_join(salarios, by ="ID") %>% 
-  filter(!is.na(PUESTO))
-
-```
-
 Tenemos dos dataframes, uno con información general de los empleados. El dataframe `plantel` contiene 8 variables:
 
 -   ID: el dato de identificación única de cada persona de la empresa.
@@ -443,7 +443,7 @@ Tenemos dos dataframes, uno con información general de los empleados. El datafr
 
 Veamos la estructura del dataframe.
 
-```{r str1, exercise = TRUE, exercise.setup = "fuente"}
+```{r str1, exercise = TRUE}
 #Correr este código
 str(plantel)
 ```
@@ -458,7 +458,7 @@ El siguiente dataframe, `salarios` contiene los siguientes campos:
 
 Prestá atención a la estructura del archivo y contesta la siguiente pregunta.
 
-```{r str2, exercise = TRUE, exercise.setup = "fuente"}
+```{r str2, exercise = TRUE}
 str(salarios)
 ```
 
@@ -478,20 +478,26 @@ Ahora vamos a unir ambos dataframes en uno solo para poder hacer nuestros análi
 
 Usaremos la función `left_join()` para agregar al dataframe `plantel` los datos del dataframe `salarios.`
 
-```{r leftjoin, exercise = TRUE, exercise.setup="fuente"}
+```{r leftjoin, exercise = TRUE, exercise.lines=7}
 # Agrega al dataframe 'plantel' el dataframe 'salarios'
 empleados <- left____(_____, _____, by = "ID")
 
+# Ver la estructura del nuevo dataframe
+___(__________)
 ```
 
 ```{r leftjoin-hint}
 # Recuerda poner la función left_join()
 # Añade al dataframe 'plantel', los datos de 'salarios' por la columna ID
 # Cuidado con mayúsculas y minúsculas
+# Para ver la estructura del dataframe usa la función str(nombre_dataframe)
 ```
 
 ```{r leftjoin-solution}
 empleados <- left_join(plantel, salarios, by = "ID")
+
+# Ver la estructura del nuevo dataframe
+str(empleados)
 ```
 
 Hay muchos tipos de `join`, por ejemplo `right_join`, `inner_join`, `anti_join`, `full_join`, que no serán parte de este curso.
@@ -500,7 +506,7 @@ Hay muchos tipos de `join`, por ejemplo `right_join`, `inner_join`, `anti_join`,
 
 Con la función `select()` podemos elegir las columnas que nos interesa trabajar. Por ejemplo, prueba de correr la función `str()` con el nuevo dataframe `empleados`.
 
-Esta es una función particularmente útil cuando trabajamos con datasets muy grandes que contienen muchas columnas y filas para mejorar los tiempos de procesamiento de datos.
+Esta es una función particularmente útil cuando trabajamos con datasets muy grandes que contienen muchas columnas y filas, que mejora los tiempos de procesamiento de datos.
 
 ```{r str, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
 # Corre esta línea de código
@@ -523,3 +529,88 @@ mensuales <- empleados %>%
 mensuales <- empleados %>%          # Crea un nuevo dataframe con los datos de empleados
   select(ID, AREA, PUESTO, SUELDO)  # Selecciona las variables de interés
 ```
+
+### Pregunta
+
+Varias funciones de `dplyr` tienen algunas variantes auxiliares. ¿Por ejemplo, qué creés que hace el siguiente código?
+
+```{r qselect, echo=TRUE, eval=FALSE}
+plantel %>% 
+  select_if(is.numeric)
+```
+
+```{r qselect1}
+question("¿Qué hará la función select_if(is.numeric)?",
+         answer("Selecciona las columnas si son numéricas", 
+                correct = TRUE, 
+                message = "Perfecto, select_if(is.numeric) seleccionará todas las columnas numérica"),
+         answer("Selecciona las columnas si no son numéricas",
+                message = "Incorrecto, todo lo contrario"),
+         answer("No es una función real",
+                message = "Incorrecto, es una función real, y en algunos casos muy práctica"),
+         submit_button = "Enviar respuesta",
+           try_again_button = "Intenta de nuevo",
+           allow_retry = TRUE)
+         )
+```
+
+## filter()
+
+La función `select()` elige columnas, `filter()` por otro lado, nos permite seleccionar filas que coincidan con un criterio de filtro para determinar qué casos pasan cuáles no lo hacen.
+
+Para trabajar con filter vamos a necesitar algunos *operadores lógicos*:
+
+```{r filter}
+library(gt)
+gt(
+  data.frame(
+    "Símbolo" = c("<", "<=", ">", ">=", "==", "!=", "&", "|"),
+    "Significado" = c("menor a", "menor o igual a", "mayor a", "mayor o igual a",
+                "igual a", "distinto a", "y (and)", "o (or)")
+  )
+) %>% 
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+Hay que prestar mucha atención cuando decimos coloquialmente por ejemplo *"filtrar área igual a RRHH"* porque el símbolo que hay que usar es `==` y no `=`. ¿Por qué?
+
+-   ✔️`AREA == "RRHH"` va a filtrar todas las filas de la columna *AREA* que digan *RRHH*.
+
+-   ❌`AREA = "RRHH"` va a crear un objeto en la memoria que se llamará *AREA* y cuyo valor será *RRHH*
+
+En mi opinión, es también un punto a favor del uso de la *"flechita"* (`<-`) para crear objetos, ya que el signo igual lo usamos para modificar parámetros dentro de las funciones.
+
+Entonces, ¿cómo hago para seleccionar a las personas del `AREA` de `FINANZAS`?
+
+```{r sel1, exercise=TRUE, exercise.lines=6}
+# Primero indico el nombre del dataframe
+empleados %>% 
+# Luego ejecuto el filtro  
+  filter(AREA __ "FINANZAS")
+```
+
+```{r sel1-hint}
+# Revisa la tabla de operadores lógicos de más arriba
+# ¿Cuántos símbolos 'igual' (=) necesitás? ¿1 o 2?
+```
+
+```{r sel1-solution}
+# Primero indico el nombre del dataframe
+empleados %>% 
+# Luego ejecuto el filtro  
+  filter(AREA == "FINANZAS")
+```
+
+Es importante que cuando estemos filtrando una variable categórica usemos las comillas para nombrar la condición por la que queremos filtrar los datos.
+
+El signo de exclamación (`!`) sirve en R como un operador de negación. Por ejemplo, si escribimos:
+
+```{r sel-ejemplo, echo=TRUE, eval=FALSE}
+empleados %>% 
+  filter(AREA != "RRHH")
+```
+
+Lo que obtendremos serán todos los empleados que **no sean de RRHH**.
