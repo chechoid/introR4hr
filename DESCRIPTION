@@ -1,21 +1,21 @@
 Package: introR4hr
-Title: Tutoriales interactivos del curso Introducción a R para RRHH
+Title: "Tutoriales interactivos del curso Introducción a R para RRHH"
 Version: 0.0.1
 Authors@R: 
     person(given = "Sergio",
            family = "Garcia Mora",
            role = c("aut", "cre"),
            email = "sergio@d4hr.com")
-Description: Tutoriales interactivos del Curso Introducción a R para RRHH.
+Description: "Tutoriales interactivos del Curso Introducción a R para RRHH."
 License: `use_gpl2_license()`
 Encoding: UTF-8
+Imports:
+  funModeling,
+  openxlsx,  
+  scales,
+  tidyverse,
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
-    funModeling
     learnr
-    openxlsx
-    scales
-    tidyverse
-    
