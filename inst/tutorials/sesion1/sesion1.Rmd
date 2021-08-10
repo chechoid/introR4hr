@@ -412,10 +412,10 @@ nomina %>%
 library(openxlsx)
 library(tidyverse)
 
-carpeta <- "inst/tutorials/sesion1/"
+#carpeta <- "inst/tutorials/sesion1/"
 
 plantel <- read.xlsx("plantel.xlsx")
-salarios <- read.xlsx("puestos.xlsx"))
+salarios <- read.xlsx("puestos.xlsx")
 
 mensualizados <- plantel %>% 
   left_join(salarios, by ="ID") %>% 
