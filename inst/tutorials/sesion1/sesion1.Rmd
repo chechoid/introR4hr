@@ -374,6 +374,8 @@ Las funciones que vimos en el curso (que no son todas las del paquete) son:
 
 Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl +Shift +M* en Windows, o *Cmd + Shift + M* en Mac.
 
+A partir de la versión 4.1.0 de R, hay una versión nativa de R del *pipe* cuyo símbolo es `|>` pero en este curso utilizaremos la versión del paquete `dplyr`. 
+
 Lo que nos permite este *pipe* o *tubo* es escribir los códigos en secuencias, haciendo muchísimo más fácil escribir y leer secuencias de funciones que incluyan varios pasos.
 
 Imaginemos que queremos comprar regalos por el día del niño a todos los empleados de la empresa que tengan hijos. Para esto, necesitamos un listado de los empleados que tengan hijos, ordenados por sector. Para lograr esto los pasos que tenemos que seguir son:
@@ -384,20 +386,24 @@ Imaginemos que queremos comprar regalos por el día del niño a todos los emplea
 
 3.  Ordenar los resultados por `AREA`.
 
-Veamos cómo se ve el código sin el uso del pipe `%>%` y usándolo. ¿Cuál te parece la forma más sencilla de entender la secuencia de análisis?
+Veamos cómo se ve el código de R sin el uso del pipe `%>%`: 
 
 ```{r ej3, echo=TRUE, eval=FALSE}
 
 # Ejemplo de funciones anidadas sin usar el pipe
 arrange(filter(select(nomina, AREA,ID, HIJOS), HIJOS > 0), AREA)
+```
 
+Ahora veamos el siguiente código, que logra lo mismo que antes, pero usando el pipe `%>%`
+```{r ej4, echo=TRUE, eval=FALSE}
 # Ejemplo de funciones anidadas usando el pipe
 nomina %>% 
   select(AREA, ID, HIJOS) %>% 
   filter(HIJOS > 0) %>% 
   arrange(AREA)
-
 ```
+
+¿Cuál te parece la forma más sencilla de entender la secuencia de análisis?
 
 ## Ejercicios
 
@@ -436,7 +442,7 @@ Tenemos dos dataframes, uno con información general de los empleados. El datafr
 
     Veamos la estructura del dataframe.
 
-```{r}
+```{r echo=TRUE}
 str(plantel)
 ```
 
@@ -450,7 +456,7 @@ El siguiente dataframe, `salarios` contiene los siguientes campos:
 
 Prestá atención a la estructura del archivo y contesta la pregunta.
 
-```{r}
+```{r echo=TRUE}
 str(salarios)
 ```
 
@@ -470,7 +476,7 @@ Ahora vamos a unir ambos dataframes en uno solo para poder hacer nuestros análi
 
 Usaremos la función `left_join()` para agregar al dataframe `plantel` los datos del dataframe `salarios.`
 
-```{r leftjoin, exercise = TRUE}
+```{r leftjoin, exercise = TRUE, exercise.setup="fuente"}
 # Agrega al dataframe 'plantel' el dataframe 'salarios'
 empleados <- left____(_____, _____, by = "ID")
 
