@@ -26,10 +26,10 @@ install.packages("learnr")
 Ya con todos los paquetes instalados, para poder utilizar un tutorial tenés que correr el siguiente código:
 
 ```{r eval=FALSE}
-learnr::run_tutorial("sesion1", "introR4hr")
+learnr::run_tutorial("sesion0", "introR4hr")
 ```
 
--   `"sesion1"` es el nombre del tutorial. Para cada clase utilizar el número de tutorial que corresponda.
+-   `"sesion0"` es el nombre del tutorial. Para cada clase utilizar el número de tutorial que corresponda.
 
 -   `"introR4hr"` es el nombre del paquete.
 
