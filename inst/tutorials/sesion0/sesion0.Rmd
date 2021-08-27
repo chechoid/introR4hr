@@ -595,7 +595,7 @@ Si hay algo que no entiendas podés usar el canal **#auxilio** de Slack.
 
 Por favor, contame qué te pareció este tutorial [en este formulario](https://forms.gle/shbaunKh1AtkKKeu7) a ver qué podemos mejorar.
 
-Y para celebrar el final de esta primera sesión, terminamos con un tema ATR (A Todo Ritmo)
+Y para celebrar el final de esta primera sesión, terminamos con un tema ATR (A Todo Ritmo) para celebrar!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/uqqO9G7I47s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
