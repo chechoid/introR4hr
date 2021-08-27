@@ -29,8 +29,6 @@ mensualizados <- plantel %>%
 
 ## Curso Introducción a R para RRHH
 
-![](images/runr.jpg)
-
 Este es un tutorial sobre la primera clase del curso **Introducción a R para RRHH** de [Data 4HR](https://data-4hr.com/capacitacion/curso-introduccion-r-para-rrhh/). El objetivo de este tutorial y sus preguntas es ayudar a comprender y fijar algunos conceptos de la clase 1.
 
 Este tutorial no sería posible sin la comunidad latinoamericana de R, por eso este primer módulo lo pueden compartir y utilizar citando a Data 4HR, y sin fines comerciales.
@@ -45,7 +43,7 @@ Para contactarme, podés escribirme a [sergio\@d4hr.com](mailto:sergio@d4hr.com)
 
 📱 [Telegram](http://t.me/SergioGarciaMora)
 
-📡 [Discord](https://discord.gg/ZUAWzSXCDd)
+📡 [Discord](https://discord.gg/3xhNH6kRad)
 
 🤝 [Slack](https://join.slack.com/t/r4hr/shared_invite/zt-ocriyx5e-nqXuwWeDyOKm2ICUJjhu6g)
 
@@ -53,33 +51,6 @@ Muchas gracias!
 
 **Sergio Garcia Mora** **Data 4HR**
 
-## Conceptos de R
-
-En esta primera sección vamos a conocer algunos conceptos que son frecuentes de ver, leer y escuchar entre usuarios y usuarias de R.
-
-Este [mapa conceptual](https://miro.com/app/board/o9J_l2nqRnM=/) contiene algunos de los principales elementos para que te familiarices.
-
-### RStudio
-
-Para programar en R es recomendable contar con dos softwares:
-
--   [R](https://cran.r-project.org/): Es el motor que realiza la carga de datos y su análisis.
--   [RStudio](https://www.rstudio.com/products/rstudio/download/): Es una interfase que nos permite interactuar fácilmente con R, ver resultados y gestionar proyectos.
-
-En el caso que tengas una computadora del trabajo que no tengas permiso para instalar programas, o que R funcione muy lento podés también usar la versión gratuita de [RStudio Cloud](https://rstudio.cloud/).
-
-### Las ventanas de RStudio
-
-A modo de introducción a RStudio, utilizaremos esta imagen publicada en el genial libro de Antonio Vazquez Brust, ["Ciencia de Datos para Gente Sociable"](https://bitsandbricks.github.io/ciencia_de_datos_gente_sociable/).
-
-![Paneles de RStudio](https://bitsandbricks.github.io/ciencia_de_datos_gente_sociable/imagenes/Interfaz_RStudio.jpg){width="568"}
-
-Veamos cada panel.
-
--   **Panel de edición**: El panel de edición es en donde recomendamos escribir nuestro código (también llamado *script*). Es un editor de texto que permite escribir las instrucciones, editarlas, copiar y pegar, etc.. La primera vez que abres RStudio tienes que crear un script usando las teclas *Ctrl + Shift + M*, o bien desde el menú *File -\> New File -\> R Script*.
--   **Consola**: Es donde corre el motor de R. Algunas salidas, mensajes de advertencia y errores, las veremos ahí.
--   **Ambiente de trabajo** (arriba a la derecha): Cuando carguemos datos, almacenemos objetos con valores y resultados, veremos ahí su nombre. También podrás acceder a distintos tutoriales en la pestaña *Tutorial*.
--   **Panel de salida**: Cuando realicemos un gráfico, podremos verlo ahí en la pestaña *Plots*. La pestaña *Files* permite ver la carpeta del proyecto con los archivos almacenados en esa carpeta. La pestaña *Packages* permite ver los paquetes instalados, e instalar y actualizar paquetes de forma sencilla.
 
 ### Proyectos
 
@@ -95,7 +66,7 @@ Elegimos la opción *New Directory* en la ventana siguiente volvemos a hacer cli
 
 Arriba a la derecha, debajo del ícono para cerrar el programa RStudio va a aparecer un ícono de un cubo celeste con el nombre del proyecto que acabamos de crear. Desde el menú desplegable podemos intercambiar de proyectos cada vez que lo necesitemos.
 
-## Objetos
+## Repaso: Objetos
 
 R es un lenguaje orientado a objetos. Esto quiere decir que las tablas, valores y resultados, les podemos dar un nombre, y utilizar ese nombre para que sea más fácil operar y programar los scripts.
 
@@ -132,175 +103,6 @@ edad = anio.actual - anio.nacimiento
 edad
 ```
 
-## Vector
-
-Un vector es un conjunto de datos. Se suele decir que *tienen una sola dimensión* (cuando veamos *data frames* esta última frase va a más tener sentido). Se pueden almacenar datos numéricos, o categóricos, en incluso una combinación de ambos.
-
-Para crear un vector y guardarlo en un objeto, necesitamos la función `c()` que significa *"combine"*.
-
-Si creas vectores que contengan variables de tipo texto, cada elemento del vector tiene que tener sí o sí las comillas en cada elemento.
-
-### Ejercicio
-
-Crea un objeto con los nombres artísticos (sin los apellidos) de los integrantes de [Soda Stereo](https://es.wikipedia.org/wiki/Soda_Stereo).
-
-```{r soda-nombres, exercise = TRUE, exercise.lines = 5}
-nombres <- c("____", "____", )
-
-nombres
-```
-
-```{r soda-nombres-hint-1}
-# Cada elemento de un vector tiene que estar separado por comas.
-# Si es una variable categórica, tiene que tener comillas.
-```
-
-```{r soda-nombres-hint-2}
-nombres <- c("Gustavo", "Charly", "Zeta")
-
-nombres
-```
-
-Perfecto! **Gustavo Cerati** tocaba la guitarra y era el cantante, **Charly Alberti** era el baterista, y **Zeta Bosio** tocaba el bajo.
-
-Te dejo un link a una de [mis canciones favoritas](https://youtu.be/9sQBgDLCdmw) de Soda Stereo 🎸
-
-### Modificar elementos de un vector
-
-Para modificar elementos de un vector hay que poner el número del elemento entre corchetes y asignarle el valor que querramos modificar. Para eso tenemos que poner el nombre del elemento, y entre corchetes poner el número de la posición del elemento que queremos modificar `nombre_vector[x]` donde x es el número del vector
-
-Cambia el nombre del artista que no pertenece a Soda Stereo.
-
-```{r soda-nombres2, exercise = TRUE, exercise.lines = 7}
-nombres <- c("Gustavo", "Moro", "Zeta")
-
-nombres[__] <- "___"
-
-nombres
-```
-
-```{r soda-nombres2-hint}
-# Oscar Moro fue un baterista argentino tremendo, pero no tocaba en Soda Stereo.
-# Para reemplazar Moro por Charly tenés que poner dentro del corchete el número del elemento que querés modificar.
-# Dentro de las comillas poné Charly.
-```
-
-```{r soda-nombres2-solution}
-nombres <- c("Gustavo", "Moro", "Zeta")
-
-nombres[2] <- "Charly"
-
-nombres
-```
-
-## Dataframes
-
-Los dataframes son objetos que contienen **filas** y **columnas**, como si fuera una hoja de cálculo por ejemplo. Se dice que este tipo de objetos suele tener 2 dimensiones, una que corresponde a las filas, y otra que corresponde a las columnas.
-
-Cuando cargamos en R un archivo de Excel o nos conectamos a una tabla de una base de datos por ejemplo, vamos a ver en la pestaña *Enviroment* de RStudio el nombre del dataframe dentro de la categoría *"Data".* También podremos ver la cantidad de *observaciones* (filas) que tiene ese dataframe, y la cantidad de *variables* (columnas).
-
-![](images/environment-data.png)
-
-Cuando nos conectamos a un archivo que contenga filas y columnas, ya se carga el objeto en la memoria de R como un dataframe. También podemos crear dataframes en base a vectores que contengan la misma cantidad de elementos.
-
-### Crear un dataframe en base a vectores
-
-Completá los vectores para luego crear un dataframe con la función `data.frame()` .
-
-```{r df-soda, exercise = TRUE, exercise.lines = 12}
-# Vectores con datos de los integrantes de Soda Stereo.
-nombres <- c("_____", "Charly", "Zeta")
-instrumentos <- c("Guitarra", "Batería", "____")
-nacimiento <- c(1959, 1963, 1958)
-
-# Creamos el dataframe usando los nombres de los vectores
-soda.stereo <- data.frame(nombres, ______, _______)
-
-soda.stereo
-
-```
-
-```{r df-soda-hint}
-# Completá los datos que faltan en los espacíos vacíos de los vectores.
-# Poné los nombres de los vectores adentro de la función data.frame
-# Cuidado con mayúsculas y minúsculas, R es case sensitive
-```
-
-```{r df-soda-solution}
-# Vectores con datos de los integrantes de Soda Stereo.
-nombres <- c("Gustavo", "Charly", "Zeta")
-instrumentos <- c("Guitarra", "Batería", "Bajo")
-nacimiento <- c(1959, 1963, 1958)
-
-# Creamos el dataframe usando los nombres de los vectores
-soda.stereo <- data.frame(nombres, instrumentos, nacimiento)
-
-soda.stereo
-```
-
-### Modificar elementos de un dataframe
-
-Para modificar un elemento puntual de un dataframe tenemos que *jugar a la Batalla Naval.* La lógica para seleccionar elementos de un dataframe es la siguiente: `nombre_dataframe[fila, columna]`. Por ejemplo acá estamos seleccionando de la siguiente tabla el elemento de la fila 3, y de la columna 1 (el nombre del bajista de Soda Stereo).
-
-```{r ejemplo}
-# Vectores con datos de los integrantes de Soda Stereo.
-nombres <- c("Gustavo", "Charly", "Zeta")
-instrumentos <- c("Guitarra", "Batería", "Bajo")
-nacimiento <- c(1959, 1963, 1958)
-
-# Creamos el dataframe usando los nombres de los vectores
-soda.stereo <- data.frame(nombres, instrumentos, nacimiento)
-
-soda.stereo
-
-# Seleccionar el elemento de la fila 3, y la columna 2
-soda.stereo[3, 1]
-
-```
-
-En el siguiente ejercicio hay un error en la base de datos, y cargaron mal el instrumento que toca el bajista Zeta Bosio. Corre el código para ver dónde está el error, y luego modifica el elemento del dataframe para que contenga la información correcta.
-
-Recordá que para modificar un elemento puntual de un dataframe la lógica es `nombre_dataframe[fila, columna].`
-
-```{r ej2, echo = FALSE}
-soda.stereo <- data.frame(
-  nombres = c("Gustavo", "Charly", "Zeta"),
-  instrumentos = c("Guitarra", "Batería", "Violín"),
-  nacimiento = c(1959, 1963, 1958)
-)
-
-```
-
-```{r df-soda2, exercise = TRUE, exercise.lines = 10, exercise.setup="ej2" }
-# Corre el código
-soda.stereo
-
-# Modifica el elemento incorrecto: nombre_dataframe[fila, columna]
-
-
-# Pon el nombre del dataframe para ver si los datos son correctos ahora.
-
-```
-
-```{r df-soda2-hint-1}
-# Para modificar un elemento de un dataframe tienes que poner dentro de los corchetes primero el número de la fila, y luego el número de la columna.
-# Luego, asigna el valor correcto en la columna de instrumentos.
-# Para terminar el ejercicio poné el nombre del dataframe y analizar si los datos se modificaron correctamente
-```
-
-```{r df-soda2-hint-2}
-# Para asignar un nuevo valor de un dataframe tienes que poner:
-# nombre_dataframe[fila, columna] que quieras modificar
-# Asignar con "la flechita" (<-) o el signo igual el instrumento correcto ("Bajo")
-```
-
-```{r df-soda2-solution}
-# Modifica el elemento incorrecto: nombre_dataframe[fila, columna]
-soda.stereo[3,2] <- "Bajo"
-
-# Pon el nombre del dataframe para ver si los datos son correctos ahora.
-soda.stereo
-```
 
 ## Paquetes
 
