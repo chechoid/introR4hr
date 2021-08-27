@@ -56,7 +56,7 @@ En el caso que tengas una computadora del trabajo que no tengas permiso para ins
 
 ### Las ventanas de RStudio
 
-A modo de introducción a RStudio, utilizaremos esta imagen publicada en el genial libro de Antonio Vazquez Brust, ["Ciencia de Datos para Gente Sociable"](https://bitsandbricks.github.io/ciencia_de_datos_gente_sociable/).
+A modo de introducción a RStudio, utilizaremos esta imagen inspirada en el genial libro de Antonio Vazquez Brust, ["Ciencia de Datos para Gente Sociable"](https://bitsandbricks.github.io/ciencia_de_datos_gente_sociable/).
 
 ![Paneles de RStudio](images/panes.png){width="568"}
 
@@ -384,7 +384,7 @@ sueldo.neto
 
 Podés verificar el resultado de la siguiente manera:
 
-```{r mat4, exercise=TRUE}
+```{r mat4, exercise=TRUE, exercise.lines = 17}
 # Cargar el sueldo bruto del ejercicio anterior
 sueldo.bruto <- 1000
 
