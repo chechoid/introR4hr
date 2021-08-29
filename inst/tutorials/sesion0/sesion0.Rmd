@@ -33,7 +33,7 @@ Este tutorial fue creado para que te familiarices con la sintaxis de R y algunos
 
 📡 [Discord](https://discord.gg/3xhNH6kRad)
 
-En Slack tenemos un canal llamado #auxilio donde podés hacer todas las consultas que quieras.
+En Slack tenemos un canal llamado **#auxilio** donde podés hacer todas las consultas que quieras.
 
 Muchas gracias!
 
@@ -70,6 +70,8 @@ Veamos cada panel.
 ### Proyectos
 
 Los proyectos son una de las grandes ventajas de trabajar con RStudio. Internamente crea carpetas dentro de *Mis documentos* (o la carpeta que elijas) haciendo que tu código y los datos estén almacenados organizadamente, redireccionando las carpetas de trabajo cada vez que cambias de proyecto.
+
+Si querés ayuda, podés ver este video en [YouTube](https://youtu.be/NflRhgN_OjA).
 
 Para crear un proyecto primero hay que entrar en *File -\> New Project* y se abrirá una ventana como la siguiente:
 
@@ -587,11 +589,190 @@ soda.stereo[3,2] <- "Bajo"
 soda.stereo
 ```
 
+## Cargar datos en R
+
+Si hasta este momento te estabas preguntando si para crear una tabla había que escribirla manualmente, **la respuesta es no**. A veces hacemos tablas intermedias que nos ayudan en algún proceso intermedio, pero lo normal es que carguemos un archivo en R y lo procesemos acá.
+
+La **principal ventaja** de procesar tablas y archivos en R es la **seguridad**. Uno carga un archivo de Excel, por ejemplo, en R y la fuente original de los datos no se modifica, a menos que explícitamente le indiquemos a R que lo haga.
+
+¿Cuántas veces descargamos datos de un sistema a un Excel, empezamos a procesarlos, llegamos a un punto donde no podemos avanzar y la solución es descargar de nuevo los datos y empezar de cero otra vez?
+
+En R también nos vamos a chocar con paredes, pero las modificaciones son progresivas. Además, el hecho de contar con un editor de script, permite que vayas corrigiendo lo que necesites, pruebes cosas diferentes, y cuando necesites empezar otra vez, sólo hay que volver a cargar los datos nuevamente.
+
+Además R, en comparación con Excel, es **mucho más rápido**. Y para los volúmenes de datos que manejamos en Recursos Humanos, incluso con decenas de miles de empleados, R es mucho más robusto para manejar esa cantidad de datos.
+
+![Si, es así de rápido](https://c.tenor.com/bkVMYpwLGsIAAAAC/big-bang-theory-im-back.gif)
+
+### Cargando datos
+
+Sólo para fines prácticos, vamos a cargar un archivo csv desde internet. Un archivo csv es un archivo plano con filas y columnas, donde las columnas (o variables para hablar con propiedad) están separadas típicamente con comas (`,`) o punto y coma (`;`).
+
+Para cargar un archivo hay que:
+
+* Asignar un nombre al objeto.
+* Indicar la ruta o dirección al archivo.
+* El nombre y la extensión del archivo (recuerda que R es case sensitive así que a prestar atención a mayúsculas y minúsculas).
+* Eventualmente hay que prestar atención también al separador de columnas.
+
+Vamos a usar una función que se llama `read.csv`. Si ponés el símbolo `?` antes de cualquier función R va a mostrar la ayuda de dicha función. Probemos eso.
+
+```{r help, exercise=TRUE}
+# Buscar la ayuda de la función read.csv
+?read.csv() 
+```
+
+La primera función que aparece en la ayuda es `read.table()`, luego viene la función que nos interesa, `read.csv()`. Los parámetros de `read.csv` que más nos interesan son:
+
+* *file*: El nombre del archivo.
+* *header*: Indica si la primera fila contiene al encabezado. Por default este valor es TRUE.
+* *sep*: Cuál es el símbolo que separa las columnas.
+
+Los tres puntos (`...`) que aparecen en el final indican que hay otros parámetros que nos pueden ser útiles que son propios de otras funciones también. Uno de esos parámetros que nos puede servir es el parámetro `skip`, que nos sirve en los casos donde un archivo de Excel viene con un encabezado y los datos empiezan varias filas debajo.
+
+El resto de los parámetros de `read.csv()` hacen lo siguiente.
+* *quote*: Indica los símbolos que se usan como comillas en columnas de texto.
+* *decimal*: Cuál es el símbolo para separar decimales (por default dejen el punto, confíen en mí).
+* *fill*: Puede pasar que al final de una columna haya celdas vacías pero la tabla contiene varias filas más. R por default las rellena como campo nulo (`NA`) hasta la última fila del archivo.
+* *comment.char*: Indica cuál es el símbolo de los comentarios de una celda.
+
+Carguemos nuestro primer archivo! Vamos a usar la **Encuesta KIWI de Sueldos de RH** del 2020.
+
+```{r carga, exercise=TRUE}
+# Cargar la encuesta de sueldos
+kiwi <- read.csv("https://raw.githubusercontent.com/chechoid/humanosReales/main/Datos/encuesta_sueldos.csv")
+
+# Probá escribir el nombre del objeto
+# Ctrl + Enter
+kiwi
+```
+
+Veamos algunas funciones para explorar el dataset.
+
+```{r kiwi}
+kiwi <- read.csv("https://raw.githubusercontent.com/chechoid/humanosReales/main/Datos/encuesta_sueldos.csv")
+
+kiwi.chico <- kiwi[,c(1, 2, 4, 14, 15)]
+
+```
+
+Primero, veamos el tamaño del data frame con la función `dim()`.
+
+```{r eda1, exercise=TRUE, exercise.setup="kiwi"}
+dim(kiwi)
+```
+El primer valor representa a las *observaciones* (filas) y el segundo a las columnas.
+
+Ahora, probemos la función `str()`.
+```{r eda2, exercise=TRUE, exercise.setup="kiwi"}
+# Usá la función str() con la tabla kiwi
+____(_____)
+```
+
+```{r eda2-hint}
+# Usá la función str() con la tabla kiwi
+str(kiwi)
+```
+
+Guau! Tenemos mucha más información. ¿Qué información arroja?
+
+Ahora vamos a probar una función muy útil para explorar algunas características de las columnas y es la función `summary()`, pero para eso vamos a usar menos columnas.
+
+La lógica en la selección es la siguiente:
+```{r sel-col, eval=FALSE}
+kiwi[ , c(1, 2, 4, 14, 15)]
+```
+
+`kiwi` es el nombre de nuestro data frame. Abriendo los corchetes podemos elegir las filas y las columnas. La lógica es la siguiente `nombre.dataframe[filas, columnas]`.
+
+Dejando vacío el espacio de las filas, le indicamos a R que queremos todas las filas. 
+
+Y en el espacio de las columnas creamos un vector con la función `c()` y adentro le indicamos el número de la posición de la variable dentro de la tabla. En nuestro encuentro sincrónico vamos a ver una forma más práctica para hacer esto.
+
+```{r eda3, exercise=TRUE, exercise.setup="kiwi", exercise.lines=9}
+# Seleccionamos las columnas 1, 2, 4, 14 y 15
+kiwi.chico <- kiwi[,c(1, 2, 4, 14, 15)]
+
+# ¿Cuál es el tamaño del nuevo data frame? Usa la función dim()
+___(_________)
+
+# Usá la función summary() en kiwi.chico
+summary(kiwi.chico)
+```
+
+```{r eda3-hint}
+# Seleccionamos las columnas 1, 2, 4, 14, y 15
+kiwi.chico <- kiwi[,c(1, 2, 4, 14, 15)]
+
+# ¿Cuál es el tamaño del nuevo data frame? Usa la función dim
+dim(kiwi.chico)
+
+# Usá la función summary() en kiwi.chico
+summary(kiwi.chico)
+```
+
+
+De las variables numéricas obtenemos la siguiente información:
+
+* **Min**: El valor mínimo
+* **1st Qu**: Primer cuartil
+* **Median**: La mediana
+* **Mean**: El promedio
+* **3rd Qu**: Tercer cuartil
+* **Max**: El valor máximo
+* **NA's**: La cantidad de celdas vacías (con datos nulos).
+
+De las variables de texto, como son de tipo `character` (una variable nominal), solo podemos ver la cantidad de elementos que trae, y el tipo de variable. Es el momento para presentar un nuevo tipo de dato: `factor`.
+
+## Factores
+
+`factor` es un tipo de variable de texto que nos permite crear por ejemplo, variables ordinales. En los materiales clásicos de ciencia de datos se los suele menospreciar, pero en el campo de los datos típicos de RRHH son esenciales.
+
+Vamos a modificar la columna `buscando_trabajo` a tipo factor, y luego, volver a correr la función `summary()`.
+
+
+```{r factor1, exercise = TRUE, exercise.setup = "kiwi"}
+# Transformamos la variable buscando_trabajo
+kiwi.chico$buscando_trabajo <- as.factor(kiwi.chico$buscando_trabajo)
+
+# Corremos la función summary() sobre kiwi.chico
+summary(kiwi.chico)
+```
+
+Ahora podemos ver que en la columna `buscando_trabajo` los valores que toma la variable (*"No estoy buscando cambiar", "No, pero escucho ofertas", "Sí, activamente"* y los campos nulos).
+
+La sintaxis de lo que hicimos en el bloque de código anterior es la siguiente:
+
+* Con el signo `$` elegimos una columna del data frame. Así que con `kiwi.chico$buscando_trabajo` lo que estamos haciendo es elegir esa columna específica.
+* Con la segunda parte del código, `as.factor(kiwi.chico$buscando_trabajo)` estamos cambiando el tipo de variable `character` a `factor`.
+
+Y ahora podemos graficar de manera muy simple esta columma.
+
+```{r factor2, exercise = TRUE, exercise.setup="kiwi"}
+# Transformamos la variable buscando_trabajo
+kiwi.chico$buscando_trabajo <- as.factor(kiwi.chico$buscando_trabajo)
+
+# Graficar la variable buscando_trabajo
+plot(kiwi.chico$buscando_trabajo)
+```
+
+En nuestra primera sesión sincrónica vamos a aprender a cargar archivos de Excel. Si no tenés ganas de esperar podés [mirar este video](https://youtu.be/21Tjx4WbVPs).
+
 ## Check out
 
 Bueno, llegamos al final de este tutorial. Recordá sumarte a [Slack](https://join.slack.com/t/r4hr/shared_invite/zt-ocriyx5e-nqXuwWeDyOKm2ICUJjhu6g) y a [Discord](https://discord.gg/3xhNH6kRad) (Discord es opcional).
 
 Si hay algo que no entiendas podés usar el canal **#auxilio** de Slack.
+
+Pueden visitar el [mapa conceptual](https://miro.com/app/board/o9J_l0IFd1Y=/) para repasar cómo se relacionan los contenidos.
+
+En este tutorial vimos:
+
+* Las ventanas (paneles) de RStudio: El editor, la consola, el ambiente y el panel de salida.
+* Como crear proyectos en RStudio.
+* Distintos tipos de objetos: valores, vectores, y data frames. Para complementar está [este video](https://youtu.be/ux5NrUeQUIo).
+* Hicimos cuentas matemáticas con estos objetos.
+* Vimos cómo seleccionar y modificar elementos en vectores y data frames.
+* Conocimos varios tipos de datos: `character`, `numerical`, `logical` y `factor`.
 
 Por favor, contame qué te pareció este tutorial [en este formulario](https://forms.gle/shbaunKh1AtkKKeu7) a ver qué podemos mejorar.
 
