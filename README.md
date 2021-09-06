@@ -9,17 +9,19 @@ Para poder instalar este paquete directamente desde GitHub, primero hay que tene
 install.packages("remotes")
 ```
 
+Para poder utilizar los tutoriales de este paquete es necesario tener instalado el paquete `learnr`. Si lo necesitás instalar lo podés hacer de la siguiente manera:
+
+```{r eval=FALSE}
+install.packages("learnr")
+```
+
 Una vez instalado `remotes`, se puede instalar el paquete `introR4hr` copiando y pegando ésta línea de código:
 
 ```{r eval=FALSE}
 remotes::install_github("chechoid/introR4hr")
 ```
 
-Para poder utilizar los tutoriales de este paquete es necesario tener instalado el paquete `learnr`. Si lo necesitás instalar lo podés hacer de la siguiente manera:
-
-```{r eval=FALSE}
-install.packages("learnr")
-```
+Este paquete contiene a su vez varios paquetes que utilizaremos a lo largo del curso. Así que es posible que la primera vez que lo instales te pida instalar varios paquetes más, así que si eso ocurre instala todos los paquetes que R te indique (apretando 1 en la consola cuando te lo pida). Puedes ver un video de ayuda en [YouTube](https://youtu.be/6jbeM1T5A20).
 
 ## Usar los tutoriales
 
