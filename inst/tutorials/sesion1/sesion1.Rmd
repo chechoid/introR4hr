@@ -25,34 +25,40 @@ empleados <- left_join(plantel, salarios, by = "ID")
 mensualizados <- plantel %>% 
   left_join(salarios, by ="ID") %>% 
   filter(!is.na(PUESTO))
+
+encuesta <- read.csv("https://raw.githubusercontent.com/r4hr/kiwi2020/main/rh_ar.csv",
+                     sep = ";")
 ```
 
-## Curso Introducción a R para RRHH
+## Sesión 1 - Introducción a Tidyverse
 
-Este es un tutorial sobre la primera clase del curso **Introducción a R para RRHH** de [Data 4HR](https://data-4hr.com/capacitacion/curso-introduccion-r-para-rrhh/). El objetivo de este tutorial y sus preguntas es ayudar a comprender y fijar algunos conceptos de la clase 1.
+![Estados de ánimo de lxs programadores](images/mood_coder.png)
 
-Este tutorial no sería posible sin la comunidad latinoamericana de R, por eso este primer módulo lo pueden compartir y utilizar citando a Data 4HR, y sin fines comerciales.
+Este tutorial corresponde a la clase de **Introducción a la limpieza de datos con Tidyverse** del  curso Introducción a R para RRHH de [Data 4HR](https://data-4hr.com/capacitacion/curso-introduccion-r-para-rrhh/). 
 
-![](https://i.creativecommons.org/l/by-nc/4.0/88x31.png)
+Con este tutorial vas a poder practicar algunas de las funciones de `tidyverse`, una colección de paquetes diseñadas para *"domar datos"*: limpiar, filtrar, seleccionar, y transformas los datos para que se ajusten a nuestras necesidades de análisis.
 
-Para contactarme, podés escribirme a [sergio\@d4hr.com](mailto:sergio@d4hr.com), visitar la web de [Data 4HR](https://data-4hr.com) o buscarme en redes sociales:
+Recordá que contás con los siguientes canales de comunicación para hacer consultas:
 
-👨‍💼 [LinkedIn](https://www.linkedin.com/in/sergiogarciamora/)
-
-⚔️ [Twitter](https://twitter.com/sergiogarciamor)
-
-📱 [Telegram](http://t.me/SergioGarciaMora)
-
-📡 [Discord](https://discord.gg/3xhNH6kRad)
 
 🤝 [Slack](https://join.slack.com/t/r4hr/shared_invite/zt-ocriyx5e-nqXuwWeDyOKm2ICUJjhu6g)
 
+📡 [Discord](https://discord.gg/3xhNH6kRad)
+
+En Slack tenemos un canal llamado **#auxilio** donde podés hacer todas las consultas que quieras.
+
 Muchas gracias!
+
+**Sergio Garcia Mora | Data 4HR**
+
+
+![](https://i.creativecommons.org/l/by-nc/4.0/88x31.png)
+
 
 **Sergio Garcia Mora** **Data 4HR**
 
 
-### Proyectos
+## Proyectos
 
 Los proyectos son una de las grandes ventajas de trabajar con RStudio. Internamente crea carpetas dentro de *Mis documentos* (o la carpeta que elijas) haciendo que tu código y los datos estén almacenados organizadamente, redireccionando las carpetas de trabajo cada vez que cambias de proyecto.
 
@@ -74,35 +80,89 @@ R es un lenguaje orientado a objetos. Esto quiere decir que las tablas, valores 
 
 Algo interesante con los objetos es que podemos utilizarlos y operar con ellos en los scripts.
 
-Para crear un objeto podemos usar el símbolo `<-` (la *"flechita"*), o bien el signo igual `=` .
+Para crear un objeto podemos usar el símbolo `<-` (la *"flechita"*), o bien el signo igual `=`. En R preferimos usar la *flechita* como asignador porque el signo igual se usa mucho en la modificación de parámetros de funciones.
 
 ### Ejercicio
 
-Asigna al objeto `anio_nacimiento` tu año de nacimiento. Luego usa el objeto para calcular tu edad, y guardarlo en un objeto llamado `edad` .
+El costo de la rotación según el [Dr. Jac Fitz-enz](https://www.linkedin.com/in/dr-jac-fitzenz-89782a55/), el padre de la rotación en RRHH es de 6 sueldos para personas de convenio o semi seniors, o hasta **un sueldo anual** en el caso de managers o profesionales.
 
-```{r objeto, exercise = TRUE, exercise.lines = 8}
-anio.nacimiento <- ____
-anio.actual <- 2021
+Es decir que la forma de calcular el costo de la rotación anual, asumiendo que  estamos haciendo un cálculo conservador (6 meses) es:
 
-edad <- anio._____ - anio.________
+$ Sueldo Promedio x 6 x Cantidad Bajas $
 
-edad
+Así con las siguientes presunciones vamos a calcular el costo de rotación de tu organización.
+
+* Crea un objeto que se llame `sueldo_referencia` cuyo monto sea de USD 1.000.
+* Crea un objeto llamado `bajas` con la cantidad de personas desvinculadas. Tomá el número de egresos de la compañía en la que trabajas en los últimos 12 meses, o simplemente inventa un número cualquiera.
+
+Usa los objetos para calcular el costo de rotación.
+
+
+```{r objeto, exercise = TRUE, exercise.lines = 9}
+# Crea los valores de referencia
+sueldo_referencia <- 1000
+bajas ___ ______
+
+# Calcular el costo de rotación multiplicando ambos objetos por 6
+costo_rotacion <- sueldo_referencia * ___ * _______
+
+# Ver el resultado
+costo_rotacion
 ```
 
 ```{r objeto-hint-1}
-# Poné el año en el que naciste en anio.nacimiento
-# Para calcular el objeto edad tenés que restar al año actual, tu año de nacimiento
+# Asigna el elemento 'bajas' un valor cualquiera. Por ejemplo, las desvinculaciones en tu empresa en los últimos 12 meses 
+# Para calcular el costo de rotación multiplica sueldo_referencia * 6 * bajas
 ```
 
 ```{r objeto-hint-2}
-anio.nacimiento <- 1979
-anio.actual <- 2021
+# Crea los valores de referencia
+sueldo_referencia <- 1000
+bajas <- 18
 
-edad = anio.actual - anio.nacimiento
+# Calcular el costo de rotación multiplicando ambos objetos por 6
+costo_rotacion <- sueldo_referencia * 6 * bajas
 
-edad
+# Ver el resultado
+costo_rotacion
 ```
 
+
+## Repaso: Vectores
+
+Los vectores son conjuntos de datos. Los creamos con una función llamada `c()` que significa *combine* (combinar).
+
+Por ejemplo:
+
+```{r vec-ej1}
+# Vector numérico
+numeros <- c(16, 8, 42)
+
+# Vector de texto
+texto <- c("RH", "People Analytics", "IA")
+
+# Ver sus contenidos
+numeros
+texto
+```
+
+¿Qué tipo de vector genera este código?
+
+```{r vec-ej2, eval=FALSE}
+ejercicio <- c("1", 7, 9)
+```
+
+```{r vec-quizz}
+quiz(
+  question("¿Qué tipo de vector genera el código anterior?",
+           answer("Numérico", message = "Si bien son tres valores numéricos, el hecho de que el primero esté entre comillas, hace que R lo considere un tipo de dato character o de texto"),
+           answer("Texto", correct = TRUE, message = "Correcto! Cuando a un número lo escribimos entre comillas R lo interpreta como texto"),
+           submit_button = "Enviar respuesta",
+           try_again_button = "Intenta de nuevo",
+           allow_retry = TRUE
+)
+)
+```
 
 ## Paquetes
 
@@ -340,7 +400,7 @@ plantel %>%
 ```
 
 ```{r qselect1}
-question("¿Qué hará la función select_if(is.numeric)?",
+quiz(question("¿Qué hará la función select_if(is.numeric)?",
          answer("Selecciona las columnas si son numéricas", 
                 correct = TRUE, 
                 message = "Perfecto, select_if(is.numeric) seleccionará todas las columnas numéricas"),
