@@ -32,31 +32,27 @@ encuesta <- read.csv("https://raw.githubusercontent.com/r4hr/kiwi2020/main/rh_ar
 
 ## Sesión 1 - Introducción a Tidyverse
 
-![Estados de ánimo de lxs programadores](images/mood_coder.png)
+![Estados de ánimo de lxs programadores](images/mood_coder.png){width="40%"}
 
-Este tutorial corresponde a la clase de **Introducción a la limpieza de datos con Tidyverse** del  curso Introducción a R para RRHH de [Data 4HR](https://data-4hr.com/capacitacion/curso-introduccion-r-para-rrhh/). 
+Este tutorial corresponde a la clase de **Introducción a la limpieza de datos con Tidyverse** del curso Introducción a R para RRHH de [Data 4HR](https://data-4hr.com/capacitacion/curso-introduccion-r-para-rrhh/).
 
 Con este tutorial vas a poder practicar algunas de las funciones de `tidyverse`, una colección de paquetes diseñadas para *"domar datos"*: limpiar, filtrar, seleccionar, y transformas los datos para que se ajusten a nuestras necesidades de análisis.
 
 Recordá que contás con los siguientes canales de comunicación para hacer consultas:
 
-
 🤝 [Slack](https://join.slack.com/t/r4hr/shared_invite/zt-ocriyx5e-nqXuwWeDyOKm2ICUJjhu6g)
 
 📡 [Discord](https://discord.gg/3xhNH6kRad)
 
-En Slack tenemos un canal llamado **#auxilio** donde podés hacer todas las consultas que quieras.
+En Slack tenemos un canal llamado **\#auxilio** donde podés hacer todas las consultas que quieras.
 
 Muchas gracias!
 
-**Sergio Garcia Mora | Data 4HR**
-
+**Sergio Garcia Mora \| Data 4HR**
 
 ![](https://i.creativecommons.org/l/by-nc/4.0/88x31.png)
 
-
 **Sergio Garcia Mora** **Data 4HR**
-
 
 ## Proyectos
 
@@ -86,17 +82,16 @@ Para crear un objeto podemos usar el símbolo `<-` (la *"flechita"*), o bien el 
 
 El costo de la rotación según el [Dr. Jac Fitz-enz](https://www.linkedin.com/in/dr-jac-fitzenz-89782a55/), el padre de la rotación en RRHH es de 6 sueldos para personas de convenio o semi seniors, o hasta **un sueldo anual** en el caso de managers o profesionales.
 
-Es decir que la forma de calcular el costo de la rotación anual, asumiendo que  estamos haciendo un cálculo conservador (6 meses) es:
+Es decir que la forma de calcular el costo de la rotación anual, asumiendo que estamos haciendo un cálculo conservador (6 meses) es:
 
-$ Sueldo Promedio x 6 x Cantidad Bajas $
+\$ Sueldo Promedio x 6 x Cantidad Bajas \$
 
 Así con las siguientes presunciones vamos a calcular el costo de rotación de tu organización.
 
-* Crea un objeto que se llame `sueldo_referencia` cuyo monto sea de USD 1.000.
-* Crea un objeto llamado `bajas` con la cantidad de personas desvinculadas. Tomá el número de egresos de la compañía en la que trabajas en los últimos 12 meses, o simplemente inventa un número cualquiera.
+-   Crea un objeto que se llame `sueldo_referencia` cuyo monto sea de USD 1.000.
+-   Crea un objeto llamado `bajas` con la cantidad de personas desvinculadas. Tomá el número de egresos de la compañía en la que trabajas en los últimos 12 meses, o simplemente inventa un número cualquiera.
 
 Usa los objetos para calcular el costo de rotación.
-
 
 ```{r objeto, exercise = TRUE, exercise.lines = 9}
 # Crea los valores de referencia
@@ -126,7 +121,6 @@ costo_rotacion <- sueldo_referencia * 6 * bajas
 # Ver el resultado
 costo_rotacion
 ```
-
 
 ## Repaso: Vectores
 
@@ -164,21 +158,175 @@ quiz(
 )
 ```
 
+Para seleccionar elementos de un vector tenemos que seguir la lógica `nombre_vector[numero_posicion]`.
+
+```{r vec-ej3, exercise = TRUE, exercise.lines =8}
+# Crear un vector
+area <- c("RH", "HR Analytics", "IA")
+
+# Seleccionar el segundo elemento
+_______
+
+# Modificar el segundo elemento por 'People Analytics'
+____[__] <- ____________
+```
+
+```{r vec-ej3-hint-1}
+# Para elegir un elemento de un vector pone el nombre del vector y entre corchetes el número del elemento
+# Para asignar un valor hay que usar la estructura nombre_vector[elemento] y asignar el nuevo elemento
+
+```
+
+```{r vec-ej3-hint-2}
+# Crear un vector
+area <- c("RH", "HR Analytics", "IA")
+
+# Seleccionar el segundo elemento
+area[2]
+
+# Modificar el segundo elemento por 'People Analytics'
+area[2] <- "People Analytics"
+```
+
+
+## Repaso: Data frames
+
+Los *data frames* son tablas, como las que encontramos en cualquier archivo de Excel por ejemplo, en donde tenemos filas (observaciones) y columnas (variables).
+
+Si tenemos vectores que tienen la misma cantidad de elementos, podemos usar la función `data.frame()` pasando los nombres de los vectores dentro de la función.
+
+Por ejemplo, creemos dos vectores, uno con el nombre de las áreas de `RH`, `Finanzas` y `Operaciones`, y otro con la cantidad de colaboradores, por ejemplo: `6`, `12`, `24` respectivamente. Luego con esos vectores podemos crear un data frame llamado `dotacion`.
+
+```{r df-1, exercise = TRUE, exercise.lines = 9}
+# Crear los vectores 'area' y 'cantidad'
+area <- c("RH", _______, ______)
+cantidad ___ _(____, _____, _____)
+
+# Crear el data frame usando la función data.frame()
+_______ <-  data.frame(________, ________)
+
+# Ver el data frame
+___________________
+```
+
+```{r df-1-hint-1}
+# Asigna los 3 elementos a cada vector
+
+# Crea un nuevo objeto llamado 'dotacion' 
+
+# Escribe dentro del data frame los nombres de los vectores
+
+# Para ver el data frame escribe su nombre
+```
+
+```{r df-1-hint-2}
+# Crear los vectores 'area' y 'cantidad'
+area <- c("RH", "Finanzas", "Operaciones")
+cantidad <- c(6, 12, 24)
+
+# Crear el data frame usando la función data.frame()
+dotacion <- data.frame(area, cantidad)
+
+# Ver el data frame
+dotacion
+```
+
+
+Corre la siguiente línea de código y responde la pregunta a continuación:
+
+```{r df-2, exercise=TRUE}
+# El data frame plantel ya está cargado
+str(plantel) # Brinda información sobre la estructura del data frame
+```
+
+Responde la pregunta:
+
+```{r df-3}
+quiz(
+  question(
+    
+  )
+)
+```
+
+
 ## Paquetes
 
-Los *paquetes* son conjuntos de funciones que desarrolla la comunidad de R y que amplían las capacidades y funcionalidades de R base. Nos permiten hacer más cosas y de manera más simple.
+Los paquetes o librerías son extensiones desarrolladas por la comunidad o por empresas que facilitan el uso de R y expanden sus capacidades. En este encuentro vamos a usar los siguientes paquetes:
 
-Los paquetes *se instalan por única vez* usando la función `install.packages("nombre_del_paquete")`. Dentro de la función, se tiene que poner el nombre del paquete, respetando mayúsculas y minúsculas, y **las comillas** son fundamentales.
+-   `readxl`: Desarrollado por Hadley Wickham and Jennifer Bryan. [Link a la web](https://CRAN.R-project.org/package=readxl).
+-   `openxlsx`: Desarrollado por Philipp Schauberger and Alexander Walker. [Link a la web](https://CRAN.R-project.org/package=openxlsx).
+-   `tidyverse`: Desarrollado por Hadley Wickham y muchos más. [Link a la web](https://www.tidyverse.org/).
 
-Una vez que el paquete está instalado, tenemos que *"activarlo"* para poder usar sus funciones. Esto lo hacemos con la función `library(nombre_del_paquete)`. Si el paquete está instalado y estás usando RStudio, a medida que vayas escribiendo el nombre del paquete te va a aparecer el nombre para autocompletar.
+Este último paquete, `tidyverse` es una colección de paquetes que permiten realizar muchas tareas de exploración, limpieza y transformación de datos.
 
-Te das cuenta que el paquete está activo porque:
+Para utilizar un paquete, lo primero que tenemos que hacer es instalarlos. Eso lo hacemos con la función `install.packages()` y dentro del paréntesis tenemos que poner el nombre del paquete. **Tengan en cuenta que:**
 
--   Al empezar a escribir las funciones, aparece para autocompletar el nombre de la función, a qué paquete pertenece, y un cuadro de ayuda.
+-   R es un lenguaje *case sensitive* o sea que hay que prestar atención a mayúsculas y minúsculas.
 
-    ![](images/paquete_activo.png){width="550"}
+-   Para instalar los paquetes hay que usar comillas
 
--   En la pestaña **Packages** te va a aparecer con una tilde en el nombre del paquete. ![](images/paquete_activo2-01.png)
+Este es un paso que hacemos una sola vez por computadora.
+
+Para correr el código se tienen que parar en la línea de código que quieren usar y apretar las teclas `Ctrl` + `Enter` o bien el triángulo verde (como si fuera un ícono de *"Play"* ▶️)
+
+```{r paquetes, eval = FALSE}
+# Instalar los paquetes readxl y tidyverse
+install.packages("tidyverse")
+install.packages("readxl")
+```
+
+Esto lo que hace es instalar paquetes desde [CRAN](https://cran.r-project.org/), que es un repositorio donde se publican los paquetes, asegurando un estándar de calidad y de documentación que hace que trabajar con cualquier paquete de CRAN sea seguro.
+
+Para usar las funciones de los paquetes que instalamos, ahora tenemos que **cargarlos.** Esto lo que hace es de alguna manera *"activar"* el paquete y que podamos empezar sus funciones.
+
+Para cargar un paquete tenemos que usar la función `library()`. Recuerden prestar atención a las mayúsculas y minúsculas. Ahora no son necesarias las comillas.
+
+```{r carga-paquetes}
+# Cargar los paquetes readxl y tidyverse
+library(readxl)
+
+
+```
+
+Una de las formas en las que nos damos cuenta que el paquete está instalado es cuando empezamos a escribir su nombre y nos aparece el nombre del paquete para autocompletar. Esta es una de las ventajas de trabajar en RStudio.
+
+![](Archivos/paquete_activo.png)
+
+> Recuerden:
+>
+> La instalación de los paquetes se hace **una sola vez** por computadora.
+>
+> La carga de los paquetese se hace **cada vez que se abre** un script.
+
+### Instalar y cargar **introR4hr**
+
+Para este curso desarrollamos un paquete, `introR4hr` que consiste en una serie de tutoriales interactivos que iremos compartiendo a lo largo del curso.
+
+`introR4hr` no es un paquete publicado en [CRAN](https://cran.r-project.org/) por lo cual hay que descargar la versión de desarrollo desde el [repositorio de GitHub](https://github.com/chechoid/introR4hr) y seguir los siguientes pasos:
+
+```{r intror4hr1, eval=FALSE}
+# Instalar los paquetes remotes y learnr
+install.packages("remotes")
+install.packages("learnr")
+
+# Instalar el paquete introR4hr desde GitHub
+remotes::install_github("chechoid/introR4hr")
+```
+
+La notación `remotes::install_github()` reemplaza parcialmente a la función `library()` ya que no carga el paquete (ahorrando memoria) y sólo utiliza la función que está invocando.
+
+Por eso luego usamos la siguiente sintaxis para cargar un tutorial interactivo.
+
+```{r intror4hr2, eval=FALSE}
+learnr::run_tutorial("sesion0", "introR4hr")
+```
+
+Donde:
+
+-   `sesion0` es el nombre del tutorial
+-   `introR4hr` es el nombre del paquete
+
 
 ### Preguntas
 
