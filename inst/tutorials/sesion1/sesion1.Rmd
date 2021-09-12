@@ -282,12 +282,21 @@ Para usar las funciones de los paquetes que instalamos, ahora tenemos que **carg
 
 Para cargar un paquete tenemos que usar la función `library()`. Recuerden prestar atención a las mayúsculas y minúsculas. Ahora no son necesarias las comillas.
 
-```{r carga-paquetes}
+```{r carga-paquetes, exercise = TRUE}
 # Cargar los paquetes readxl y tidyverse
-library(readxl)
+library(____)  # Leer archivos de Excel en R
 
 
 ```
+```{r carga-paquetes-hint1}
+# Tenés que usar la función library() y dentro de los paréntesis escribir readxl
+
+```
+```{r carga-paquetes-solution}
+# Cargar los paquetes readxl y tidyverse
+library(readxl) # Leer archivos de Excel en R
+```
+
 
 Una de las formas en las que nos damos cuenta que el paquete está instalado es cuando empezamos a escribir su nombre y nos aparece el nombre del paquete para autocompletar. Esta es una de las ventajas de trabajar en RStudio.
 
@@ -298,35 +307,6 @@ Una de las formas en las que nos damos cuenta que el paquete está instalado es 
 > La instalación de los paquetes se hace **una sola vez** por computadora.
 >
 > La carga de los paquetese se hace **cada vez que se abre** un script.
-
-### Instalar y cargar **introR4hr**
-
-Para este curso desarrollamos un paquete, `introR4hr` que consiste en una serie de tutoriales interactivos que iremos compartiendo a lo largo del curso.
-
-`introR4hr` no es un paquete publicado en [CRAN](https://cran.r-project.org/) por lo cual hay que descargar la versión de desarrollo desde el [repositorio de GitHub](https://github.com/chechoid/introR4hr) y seguir los siguientes pasos:
-
-```{r intror4hr1, eval=FALSE}
-# Instalar los paquetes remotes y learnr
-install.packages("remotes")
-install.packages("learnr")
-
-# Instalar el paquete introR4hr desde GitHub
-remotes::install_github("chechoid/introR4hr")
-```
-
-La notación `remotes::install_github()` reemplaza parcialmente a la función `library()` ya que no carga el paquete (ahorrando memoria) y sólo utiliza la función que está invocando.
-
-Por eso luego usamos la siguiente sintaxis para cargar un tutorial interactivo.
-
-```{r intror4hr2, eval=FALSE}
-learnr::run_tutorial("sesion0", "introR4hr")
-```
-
-Donde:
-
--   `sesion0` es el nombre del tutorial
--   `introR4hr` es el nombre del paquete
-
 
 ### Preguntas
 
@@ -346,14 +326,14 @@ library(tidyverse)
 ```{r paquetes}
 quiz(
   question("¿Cuántas veces hay que instalar un paquete?",
-           answer("Una sola vez", correct = TRUE),
+           answer("Una sola vez por computadora", correct = TRUE, "Así es! Este es un proceso que se hace por única vez en cada máquina en la que trabajes"),
            answer("Cada vez que corremos un script", message = "La instalación sólo es necesaria una sola vez"),
            answer("Cada vez que creamos un proyecto nuevo", message = "No importa la cantidad de proyectos. Cada vez que instalamos un paquete queda disponible para todos los proyectos que creemos."),
            answer("Depende", message = "[Depende](https://youtu.be/dgf5QlcyTFY) es una bonita canción de Jarabe de Palo y en este caso es una respuesta incorrecta ;p"),
            submit_button = "Enviar respuesta",
            try_again_button = "Intenta de nuevo",
            allow_retry = TRUE),
-  question("Cada vez que abro un script es necesario correr la función `library`",
+  question("Cada vez que abro un script es necesario correr la función `library()`",
            answer("Verdadero", correct = TRUE, message = "Si, es correcto, cada vez que abrimos R tenemos que correr el script desde el principio y vover a activar los paquetes."),
            answer("Falso", message = "Cada vez que abrimos el script hay que correr todo el código desde el principio y activar el paquete con la función library"),
            submit_button = "Enviar respuesta",
@@ -361,7 +341,7 @@ quiz(
            allow_retry = TRUE),
   question("¿Por qué aparece este mensaje de error?: 'no se pudo encontrar la función _________'",
   answer("Porque el paquete no está instalado", message = "Es posible, pero hay otra respuesta más específica"),
-  answer("Porque no corrió la función library()", correct = TRUE, message = "Perfecto! La función library() activa las funciones"),
+  answer("Porque no cargamos el paquete con la función library() antes", correct = TRUE, message = "Perfecto! La función library() activa las funciones"),
   answer("Porque está mal escrito el nombre del paquete", message = "Si hay un error de tipeo el mensaje diría: there is no package called ___"),
            submit_button = "Enviar respuesta",
            try_again_button = "Intenta de nuevo",
@@ -369,11 +349,29 @@ quiz(
 ))
 ```
 
+Es un buen momento para [poner una pausa](https://youtu.be/xxLhW_hnrW4).
+
 ## Tidyverse
 
 ![](images/tidyverse_packages.png){width="438"}
 
-Tidyverse es un conjunto de paquetes, diseñados principalmente para la manipulación y transformación de datos. En este primer curso trabajamos mucho con el paquete `dplyr` que nos permite filtrar datos, unir datos de diversas fuentes, y hacer las transformaciones necesarias para poder realizar nuestros análisis. Para saber más del resto de los paquetes buscá en el [Google Drive](https://drive.google.com/drive/folders/1Qck3z_t6XLRXb2vbN-00931DgdJZ0yse?usp=sharing) del **Club de R para RRHH** o mirá los videos en [Youtube](https://youtube.com/playlist?list=PLZuVytUJrxQlcqu6l-P3ou4vV2mRJU2Ka).
+`tidyverse` es un conjunto de paquetes, diseñados principalmente para la manipulación y transformación de datos. También es un estándar, conocido como *tidy data* en el cual sus principios son:
+
+* Cada variable debe tener su propia columna.
+* Cada observación debe estar en su propia fila.
+* Cada valor debe estar en su propia celda.
+
+![Fuente: R para Ciencia de Datos](https://es.r4ds.hadley.nz/diagrams_w_text_as_path/es/tidy-1.svg)
+
+Un ejemplo típico de lo que tenemos que hacer es cuando en un archivo de Excel nos encontramos con algo así:
+
+![Datos Anchos](images/datos_anchos.png)
+
+Para R, enero, febrero, y marzo son valores de una variable que se llamaría mes. Si necesito hacer cálculos o un gráfico con sus resultados necesito poner esa variable en una columna en vez de en un fila como está ahora.
+
+![Datos largos](images/datos_largos.png)
+
+En este primer curso trabajamos mucho con el paquete `dplyr` que nos permite filtrar datos, unir datos de diversas fuentes, y hacer las transformaciones necesarias para poder realizar nuestros análisis. Para saber más del resto de los paquetes de tidyverse buscá en el [Google Drive](https://drive.google.com/drive/folders/1Qck3z_t6XLRXb2vbN-00931DgdJZ0yse?usp=sharing) de **R4HR Club de R para RRHH** o mirá los videos en [YouTube](https://youtube.com/playlist?list=PLZuVytUJrxQlcqu6l-P3ou4vV2mRJU2Ka).
 
 ## Funciones o verbos de dplyr
 
