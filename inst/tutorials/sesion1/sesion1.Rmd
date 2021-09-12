@@ -44,7 +44,7 @@ Recordá que contás con los siguientes canales de comunicación para hacer cons
 
 📡 [Discord](https://discord.gg/3xhNH6kRad)
 
-En Slack tenemos un canal llamado **\#auxilio** donde podés hacer todas las consultas que quieras.
+En Slack tenemos un canal llamado **#auxilio** donde podés hacer todas las consultas que quieras.
 
 Muchas gracias!
 
@@ -393,9 +393,9 @@ Las funciones que vimos en el curso (que no son todas las del paquete) son:
 
 -   **mutate():** Uno de los principales usos de `mutate()` es el de crear una nueva variable (columna) en nuestro dataframe original en base a alguna columna que ya exista. Por ejemplo, si tengo una columna que contenga el sueldo básico mensual de un empleado, podría añadir otra columna que calcule las cargas sociales, o bien el costo anual de cada colaborador/a. Otro uso que se le da es para modificar las características de una variable (lo veremos en un ejercicio).
 
-## El "pipe" %\>%
+## El "pipe" %>%
 
-Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl +Shift +M* en Windows, o *Cmd + Shift + M* en Mac.
+Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl + Mayús + M* en Windows, o *Cmd + Shift + M* en Mac.
 
 A partir de la versión 4.1.0 de R, hay una versión nativa de R del *pipe* cuyo símbolo es `|>` pero en este curso utilizaremos la versión del paquete `dplyr`.
 
@@ -412,7 +412,6 @@ Imaginemos que queremos comprar regalos por el día del niño a todos los emplea
 Veamos cómo se ve el código de R sin el uso del pipe `%>%`:
 
 ```{r ej3, echo=TRUE, eval=FALSE}
-
 # Ejemplo de funciones anidadas sin usar el pipe
 arrange(filter(select(nomina, AREA,ID, HIJOS), HIJOS > 0), AREA)
 ```
@@ -473,7 +472,7 @@ str(salarios)
 ```{r left-q}
 quiz(
   question("¿Cuántas filas y columnas tiene el dataframe 'salarios'?",
-  answer("135 columnas y 3 variables", message = "Las observaciones son las filas y las variables son las columnas"),
+  answer("135 columnas y 3 variables", message = "Las observaciones son las filas y las variables son las columnas de una tabla o data frame."),
   answer("130 filas y 10 variables", message = "Mirá de nuevo el resultado de la estructura del dataframe salarios. Primero indica las observaciones, y luego las variables"),
   answer("135 filas y 3 columnas", correct = TRUE, message = "Muy bien!"),
   submit_button = "Enviar respuesta",
@@ -498,7 +497,7 @@ ___(__________)
 # Recuerda poner la función left_join()
 # Añade al dataframe 'plantel', los datos de 'salarios' por la columna ID
 # Cuidado con mayúsculas y minúsculas
-# Para ver la estructura del dataframe usa la función str(nombre_dataframe)
+# Para ver la estructura del data frame usa la función str(nombre_dataframe)
 ```
 
 ```{r leftjoin-solution}
@@ -516,24 +515,24 @@ Con la función `select()` podemos elegir las columnas que nos interesa trabajar
 
 Esta es una función particularmente útil cuando trabajamos con datasets muy grandes que contienen muchas columnas y filas, que mejora los tiempos de procesamiento de datos.
 
-```{r str, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
+```{r str, exercise = TRUE, exercise.lines = 4}
 # Corre esta línea de código
 str(empleados)
 ```
 
-Las variables `ANTIGUEDAD`, `EDAD`, `ESTADO_CIVIL` e `HIJOS` no tienen mucho sentido para un análisis salarial. En el próximo ejercicio, selecciona las columnas `ID`, `AREA`, `PUESTO`, `SUELDO` y guarda la selección en un objeto llamado `mensuales.`
+Las variables `EDAD`, `ESTADO_CIVIL` e `HIJOS` no tienen mucho sentido para un análisis salarial. En el próximo ejercicio, selecciona las columnas `ID`, `AREA`, `PUESTO`, `SUELDO` y `ANTIGUEDAD` y guarda la selección en un objeto llamado `mensuales.`
 
-```{r select, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
+```{r select, exercise = TRUE, exercise.lines = 4}
 mensuales <- empleados %>% 
   _______(___, ___, ____, ____)
 ```
 
-```{r select-hint}
+```{r select-hint-1}
 # Usa la función select()
 # Dentro del paréntesis pon los nombres de las variables que nos interesa analizar
 ```
 
-```{r select-solution}
+```{r select-hint-2}
 mensuales <- empleados %>%          # Crea un nuevo dataframe con los datos de empleados
   select(ID, AREA, PUESTO, SUELDO)  # Selecciona las variables de interés
 ```
@@ -557,8 +556,8 @@ quiz(question("¿Qué hará la función select_if(is.numeric)?",
          answer("No es una función real",
                 message = "Incorrecto, es una función real, y en algunos casos muy práctica"),
          submit_button = "Enviar respuesta",
-           try_again_button = "Intenta de nuevo",
-           allow_retry = TRUE)
+         try_again_button = "Intenta de nuevo",
+         allow_retry = TRUE)
          )
 ```
 
@@ -622,6 +621,8 @@ empleados %>%
 ```
 
 Lo que obtendremos serán todos los empleados que **no sean de RRHH**.
+
+Un error frecuente que cometemos cuando estamos aprendiendo sobre `tidyverse` es usar la función `filter()` con un sólo signo igual. Probemos correr la siguiente línea de código:
 
 ## group_by() y summarise()
 
