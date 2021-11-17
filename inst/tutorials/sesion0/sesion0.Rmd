@@ -52,7 +52,7 @@ Para programar en R es recomendable contar con dos softwares:
 -   [R](https://cran.r-project.org/): Es el motor que realiza la carga de datos y su análisis.
 -   [RStudio](https://www.rstudio.com/products/rstudio/download/): Es una interfase que nos permite interactuar fácilmente con R, ver resultados y gestionar proyectos.
 
-En el caso que tengas una computadora del trabajo que no tengas permiso para instalar programas, o que R funcione muy lento podés también usar la versión gratuita de [RStudio Cloud](https://rstudio.cloud/).
+En el caso que tengas una computadora del trabajo que no tengas permiso para instalar programas, o que R funcione muy lento, o simplemente no querés lidiar con todas las instalaciones podés usar la versión gratuita de [RStudio Cloud](https://rstudio.cloud/).
 
 ### Las ventanas de RStudio
 

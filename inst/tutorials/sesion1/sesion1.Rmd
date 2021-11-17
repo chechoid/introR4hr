@@ -22,7 +22,7 @@ salarios <- read.xlsx("puestos.xlsx")
 
 empleados <- left_join(plantel, salarios, by = "ID")
 
-mensualizados <- plantel %>% 
+mensuales <- plantel %>% 
   left_join(salarios, by ="ID") %>% 
   filter(!is.na(PUESTO))
 
@@ -58,7 +58,7 @@ Muchas gracias!
 
 Los proyectos son una de las grandes ventajas de trabajar con RStudio. Internamente crea carpetas dentro de *Mis documentos* (o la carpeta que elijas) haciendo que tu código y los datos estén almacenados organizadamente, redireccionando las carpetas de trabajo cada vez que cambias de proyecto.
 
-Para crear un proyecto primero hay que entrar en *File -\> New Project* y se abrirá una ventana como la siguiente:
+Para crear un proyecto primero hay que entrar en *File -> New Project* y se abrirá una ventana como la siguiente:
 
 ![](images/new_project.png){width="348"}
 
@@ -128,7 +128,7 @@ Los vectores son conjuntos de datos. Los creamos con una función llamada `c()` 
 
 Por ejemplo:
 
-```{r vec-ej1}
+```{r vec-ej1, echo=TRUE}
 # Vector numérico
 numeros <- c(16, 8, 42)
 
@@ -142,7 +142,7 @@ texto
 
 ¿Qué tipo de vector genera este código?
 
-```{r vec-ej2, eval=FALSE}
+```{r vec-ej2, eval=FALSE, echo=TRUE}
 ejercicio <- c("1", 7, 9)
 ```
 
@@ -160,7 +160,7 @@ quiz(
 
 Para seleccionar elementos de un vector tenemos que seguir la lógica `nombre_vector[numero_posicion]`.
 
-```{r vec-ej3, exercise = TRUE, exercise.lines =8}
+```{r vec-ej3, exercise = TRUE, exercise.lines =12}
 # Crear un vector
 area <- c("RH", "HR Analytics", "IA")
 
@@ -169,6 +169,8 @@ _______
 
 # Modificar el segundo elemento por 'People Analytics'
 ____[__] <- ____________
+
+# Ver el vector actualizado
 ```
 
 ```{r vec-ej3-hint-1}
@@ -186,8 +188,10 @@ area[2]
 
 # Modificar el segundo elemento por 'People Analytics'
 area[2] <- "People Analytics"
-```
 
+# Ver el vector actualizado
+area
+```
 
 ## Repaso: Data frames
 
@@ -231,7 +235,6 @@ dotacion <- data.frame(area, cantidad)
 dotacion
 ```
 
-
 Corre la siguiente línea de código y responde la pregunta a continuación:
 
 ```{r df-2, exercise=TRUE}
@@ -244,11 +247,16 @@ Responde la pregunta:
 ```{r df-3}
 quiz(
   question(
-    
+    "¿Cuántas filas y columnas tiene el dataframe 'plantel'?",
+  answer("522 columnas y 8 variables", message = "Las observaciones son las filas y las variables son las columnas. Columna es sinónimo de variable en R."),
+  answer("522 variables y 8 filas", message = "Mirá de nuevo la primera fila del resultado de la estructura del dataframe plantel. Primero indica las observaciones, y luego las variables"),
+  answer("522 filas y 8 columnas", correct = TRUE, message = "Muy bien!"),
+  submit_button = "Enviar respuesta",
+  try_again_button = "Intenta de nuevo",
+  allow_retry = TRUE
   )
 )
 ```
-
 
 ## Paquetes
 
@@ -270,7 +278,7 @@ Este es un paso que hacemos una sola vez por computadora.
 
 Para correr el código se tienen que parar en la línea de código que quieren usar y apretar las teclas `Ctrl` + `Enter` o bien el triángulo verde (como si fuera un ícono de *"Play"* ▶️)
 
-```{r paquetes, eval = FALSE}
+```{r paquetes1, eval = FALSE}
 # Instalar los paquetes readxl y tidyverse
 install.packages("tidyverse")
 install.packages("readxl")
@@ -288,19 +296,20 @@ library(____)  # Leer archivos de Excel en R
 
 
 ```
+
 ```{r carga-paquetes-hint1}
 # Tenés que usar la función library() y dentro de los paréntesis escribir readxl
 
 ```
+
 ```{r carga-paquetes-solution}
 # Cargar los paquetes readxl y tidyverse
 library(readxl) # Leer archivos de Excel en R
 ```
 
-
 Una de las formas en las que nos damos cuenta que el paquete está instalado es cuando empezamos a escribir su nombre y nos aparece el nombre del paquete para autocompletar. Esta es una de las ventajas de trabajar en RStudio.
 
-![](Archivos/paquete_activo.png)
+![](images/paquete_activo.png)
 
 > Recuerden:
 >
@@ -353,15 +362,15 @@ Es un buen momento para [poner una pausa](https://youtu.be/xxLhW_hnrW4).
 
 ## Tidyverse
 
-![](images/tidyverse_packages.png){width="438"}
+![](images/tidyverse_packages.png){width="400"}
 
 `tidyverse` es un conjunto de paquetes, diseñados principalmente para la manipulación y transformación de datos. También es un estándar, conocido como *tidy data* en el cual sus principios son:
 
-* Cada variable debe tener su propia columna.
-* Cada observación debe estar en su propia fila.
-* Cada valor debe estar en su propia celda.
+-   Cada variable debe tener su propia columna.
+-   Cada observación debe estar en su propia fila.
+-   Cada valor debe estar en su propia celda.
 
-![Fuente: R para Ciencia de Datos](https://es.r4ds.hadley.nz/diagrams_w_text_as_path/es/tidy-1.svg)
+![Fuente: R para Ciencia de Datos](https://es.r4ds.hadley.nz/diagrams_w_text_as_path/es/tidy-1.svg){width="600"}
 
 Un ejemplo típico de lo que tenemos que hacer es cuando en un archivo de Excel nos encontramos con algo así:
 
@@ -375,7 +384,7 @@ En este primer curso trabajamos mucho con el paquete `dplyr` que nos permite fil
 
 ## Funciones o verbos de dplyr
 
-Tené a mano el [cheatsheet de data-wrangling](https://drive.google.com/file/d/1ViFJRuby7FTDgjWvp9P6hKO3MEHgeH_M/view?usp=sharing) en castellano. Los cheatsheets (machetes, cola, trencito, torpedo, chuleta, copiatín, plage, chanchullo) son ayuda memorias con las principales funciones de un paquete.
+Tené a mano el [cheatsheet de data-wrangling](https://drive.google.com/file/d/1ViFJRuby7FTDgjWvp9P6hKO3MEHgeH_M/view?usp=sharing) en castellano. Los cheatsheets (machetes, cola, trencito, torpedo, chuleta, copiatín, plage, chanchullo, etc.) son ayuda memoria con las principales funciones de un paquete.
 
 Las funciones que vimos en el curso (que no son todas las del paquete) son:
 
@@ -393,7 +402,7 @@ Las funciones que vimos en el curso (que no son todas las del paquete) son:
 
 ## El "pipe" %>%
 
-Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl + Mayús + M* en Windows, o *Cmd + Shift + M* en Mac.
+Uno de los paquetes de tidyverse, el paquete `dplyr` aporta un símbolo conocido como *"pipe"* `%>%` (*tubo* en inglés). El atajo de teclado es con las teclas *Ctrl +Shift +M* en Windows, o *Cmd + Shift + M* en Mac.
 
 A partir de la versión 4.1.0 de R, hay una versión nativa de R del *pipe* cuyo símbolo es `|>` pero en este curso utilizaremos la versión del paquete `dplyr`.
 
@@ -410,6 +419,7 @@ Imaginemos que queremos comprar regalos por el día del niño a todos los emplea
 Veamos cómo se ve el código de R sin el uso del pipe `%>%`:
 
 ```{r ej3, echo=TRUE, eval=FALSE}
+
 # Ejemplo de funciones anidadas sin usar el pipe
 arrange(filter(select(nomina, AREA,ID, HIJOS), HIJOS > 0), AREA)
 ```
@@ -424,7 +434,7 @@ nomina %>%
   arrange(AREA)
 ```
 
-¿Cuál te parece la forma más sencilla de entender la secuencia de análisis?
+¿Cuál de las dos formas anteriores te parece la forma más sencilla de entender la secuencia de análisis? ¿La versión sin el pipe, o con el pipe?
 
 ## Unir datos con left_join()
 
@@ -470,7 +480,7 @@ str(salarios)
 ```{r left-q}
 quiz(
   question("¿Cuántas filas y columnas tiene el dataframe 'salarios'?",
-  answer("135 columnas y 3 variables", message = "Las observaciones son las filas y las variables son las columnas de una tabla o data frame."),
+  answer("135 columnas y 3 variables", message = "Las observaciones son las filas y las variables son las columnas"),
   answer("130 filas y 10 variables", message = "Mirá de nuevo el resultado de la estructura del dataframe salarios. Primero indica las observaciones, y luego las variables"),
   answer("135 filas y 3 columnas", correct = TRUE, message = "Muy bien!"),
   submit_button = "Enviar respuesta",
@@ -495,7 +505,7 @@ ___(__________)
 # Recuerda poner la función left_join()
 # Añade al dataframe 'plantel', los datos de 'salarios' por la columna ID
 # Cuidado con mayúsculas y minúsculas
-# Para ver la estructura del data frame usa la función str(nombre_dataframe)
+# Para ver la estructura del dataframe usa la función str(nombre_dataframe)
 ```
 
 ```{r leftjoin-solution}
@@ -513,26 +523,32 @@ Con la función `select()` podemos elegir las columnas que nos interesa trabajar
 
 Esta es una función particularmente útil cuando trabajamos con datasets muy grandes que contienen muchas columnas y filas, que mejora los tiempos de procesamiento de datos.
 
-```{r str, exercise = TRUE, exercise.lines = 4}
+```{r str, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
 # Corre esta línea de código
 str(empleados)
 ```
 
-Las variables `EDAD`, `ESTADO_CIVIL` e `HIJOS` no tienen mucho sentido para un análisis salarial. En el próximo ejercicio, selecciona las columnas `ID`, `AREA`, `PUESTO`, `SUELDO` y `ANTIGUEDAD` y guarda la selección en un objeto llamado `mensuales.`
+Las variables `EDAD`, `ESTADO_CIVIL` e `HIJOS` no tienen mucho sentido para un análisis salarial. En el próximo ejercicio, selecciona las columnas `ID`, `AREA`, `PUESTO`, `SUELDO`, y `ANTIGUEDAD` y guarda la selección en un objeto llamado `mensuales.`
 
-```{r select, exercise = TRUE, exercise.lines = 4}
+```{r select, exercise = TRUE, exercise.lines = 5, exercise.setup="fuente"}
 mensuales <- empleados %>% 
   _______(___, ___, ____, ____)
+
+# Ver el resultado
+_________
 ```
 
-```{r select-hint-1}
+```{r select-hint}
 # Usa la función select()
 # Dentro del paréntesis pon los nombres de las variables que nos interesa analizar
 ```
 
-```{r select-hint-2}
+```{r select-solution}
 mensuales <- empleados %>%          # Crea un nuevo dataframe con los datos de empleados
   select(ID, AREA, PUESTO, SUELDO)  # Selecciona las variables de interés
+
+# Ver el resultado
+mensuales
 ```
 
 ### Pregunta
@@ -554,8 +570,8 @@ quiz(question("¿Qué hará la función select_if(is.numeric)?",
          answer("No es una función real",
                 message = "Incorrecto, es una función real, y en algunos casos muy práctica"),
          submit_button = "Enviar respuesta",
-         try_again_button = "Intenta de nuevo",
-         allow_retry = TRUE)
+           try_again_button = "Intenta de nuevo",
+           allow_retry = TRUE)
          )
 ```
 
@@ -620,7 +636,241 @@ empleados %>%
 
 Lo que obtendremos serán todos los empleados que **no sean de RRHH**.
 
-Un error frecuente que cometemos cuando estamos aprendiendo sobre `tidyverse` es usar la función `filter()` con un sólo signo igual. Probemos correr la siguiente línea de código:
+### Mensajes de error
+
+Un error frecuente que cometemos cuando estamos aprendiendo a usar la función `filter()` es poner un sólo signo igual en vez de dos. Revisemos el mensaje de error que obtenemos:
+
+```{r error1, eval=FALSE, include=TRUE, echo=TRUE}
+# Este código contiene un error
+plantel %>% 
+  filter(AREA = "RRHH")
+```
+
+El mensaje que obtenemos dice lo siguiente:
+
+![](images/filter_error_igual.png)
+
+Estos son los pasos que tenemos que seguir cuando corremos un código y nos sale un mensaje de error:
+
+1.  Entrar en pánico 😱
+2.  Si de la computadora no sale humo, respirar con alivio hasta recuperar la calma 🧘
+3.  Leer el mensaje de error 👩‍💻
+4.  En caso de no entender el mensaje, pegar un print de pantalla en el canal **#auxilio** del [grupo de Slack](https://join.slack.com/t/r4hr/shared_invite/zt-ocriyx5e-nqXuwWeDyOKm2ICUJjhu6g) 🙋 que alguien siempre va a ayudar.
+5.  Una alternativa al paso 4 es buscar en Google. Suena como un chiste pero no lo es, saber buscar soluciones en Google, foros y sitios como Stack Overflow es parte del trabajo de un Data Scientist 💻
+
+Si no me creen, miren este tuit de Hadley Wickham
+
+![](images/hadley_google.png)
+
+Si no saben quién es Hadley, miren [su perfil en LinkedIn](https://www.linkedin.com/in/hadleywickham/).
+
+El mensaje de error anterior nos da un par de pistas después de la `i`
+
+*This usually means that you've used* '=' *instead of '=='.*
+
+*Did you mean 'AREA == "RRHH"'?*
+
+Traduciendo esto nos dice que: *Esto usualmente significa que has usado '=' en vez de '=='. ¿Querías decir 'AREA == "RRHH"'?*
+
+O sea que lo que tenemos que hacer para corregir el error anterior es poner dos signos igual (`==`) dentro de `filter()`.
+
+> Recuerden que programar es aprender a ejercitar la tolerancia a la frustración. Los errores son parte de la programación, incluso en los programadores experimentados.
+
+```{r error2, exercise=TRUE}
+# Este código contiene un error, corrígelo
+plantel %>% 
+  filter(AREA = "RRHH")
+```
+
+```{r error2-hint-1}
+# Para filtrar por un valor de texto necesitamos dos signos iguales
+```
+
+```{r error2-hint-2}
+# Este código contiene un error, corrígelo
+plantel %>% 
+  filter(AREA = "RRHH")
+```
+
+Otro error habitual, cuando la columna por la que queremos filtrar es de tipo `character` o `factor` es no poner las comillas (que no son necesarias con variables numéricas). Veamos el mensaje de error.
+
+![](images/filter_error_comillas.png)
+
+Nuevamente, la pista la tenemos detrás de la letra `i`
+
+*i Input '..1' is 'AREA == RRHH'*
+
+*x objeto 'RRHH' no encontrado*
+
+Si lo traducimos dice que input es AREA == RRHH, y luego nos dice que no encontró el objeto RRHH. En este caso, que tenemos la certeza de que RRHH está bien escrito (recuerden que R es case sensitive) el problema es que nos faltan las comillas en `"RRHH"`.
+
+### Filtrando varios elementos a la vez
+
+Muchas veces queremos seleccionar varios elementos de una sola vez. Para esto tenemos dos alternativas.
+
+La primera es usando el operador lógico **O** (OR) con el símbolo `|`. Busquemos las personas que trabajan en `RRHH` y en `FINANZAS`.
+
+```{r filters, exercise=TRUE}
+# Reemplazar el espacio con el operador lógico | 
+plantel %>% 
+  filter(AREA == "RRHH" ___ AREA == "FINANZAS")
+```
+
+```{r filters-hint}
+# Reemplazar el espacio con el operador lógico | 
+plantel %>% 
+  filter(AREA == "RRHH" | AREA == "FINANZAS")
+```
+
+Cuando las opciones son más de dos, la mejor forma de filtrar elementos es usando el operador `%in%` en conjunto con un vector que tenga los valores que nos interesa filtrar. La sintaxis es la siguiente:
+
+```{r filters2, eval=FALSE, include=TRUE, echo = TRUE}
+data.frame %>% 
+  filter(variable %in% vector)
+```
+
+Seleccionar las personas que trabajan en `COMPRAS`, `FINANZAS` y `RRHH`.
+
+```{r filters3, exercise = TRUE, exercise.lines = 4}
+# Filtar en la columna AREA las filas que contengan COMPRAS, FINANZAS y RRHH usando un vector
+plantel %>% 
+  filter(_____ ____ _________))
+```
+
+```{r filters3-hint-1}
+# Poner primero la columna que quiero filtrar, usar el operador %in% y luego dentro del vector los nombres de las áreas.
+# Los nombres de los sectores están con todas las letras en mayúsculas.
+```
+
+```{r filters3-solution}
+# Filtar en la columna AREA las filas que contengan COMPRAS, FINANZAS y RRHH usando un vector
+plantel %>% 
+  filter(AREA %in% c("COMPRAS", "FINANZAS", "RRHH")))
+```
+
+### Filtrar celdas vacías
+
+Las celdas vacías, representadas en R por un `NA` son un problema. Por ejemplo si quisiera sacar un promedio de la variable `satisfaccion` del data frame `encuesta` no podría porque contiene valores nulos.
+
+```{r filter-na, exercise = TRUE, exercise.lines = 6}
+# Hacer un summary de encuesta$satisfaccion
+________(_______$___________)
+
+# Probemos calcular un promedio sobre la columna satisfaccion
+mean(encuesta$satisfaccion)
+```
+
+```{r filter-na-hint}
+# Hacer un summary de encuesta$satisfaccion
+summary(encuesta$satisfaccion)
+
+# Probemos calcular un promedio sobre la columna satisfaccion
+mean(encuesta$satisfaccion)
+```
+
+La columna satisfacción tiene 75 `NA`. Y cuando queremos calcular el promedio de esa columna, el resultado es un `NA`. Prueben agregar el parámetro `na.rm = TRUE` dentro de la función `mean()` que elimina del cálculo las celdas vacías.
+
+Si quisiéramos seleccionar las filas que no tengan datos nulos podemos hacerlo de la siguiente manera, usando la función `is.na()`. Esta función hace una evaluación sobre la celda está vacía o no. Si esta vacía el resultado será `TRUE`, de lo contrario, será `FALSE`.
+
+Para quedarnos con las filas que sí contienen datos tenemos que anteponer el operador de negación `!`. Vamos a usar una función llamada `pull()` para *extraer* los valores de la columna y pasarlos a un vector.
+
+```{r filter-na2, exercise=TRUE, exercise.lines = 12}
+# Probar la función is.na()
+is.na(encuesta$satisfaccion)
+
+# Seleccionar la columna satisfaccion, filtrar los no nulos y calcular el promedio
+satisfaccion <- encuesta %>% 
+  select(satisfaccion) %>% 
+  filter(_____(______)) %>% 
+  pull()                    # Extrae la columna del data frame y la guarda como un vector
+
+# Calcular el promedio de satisfaccion
+mean(satisfaccion)
+```
+
+```{r filter-na2-hint-1}
+# Poner dentro del filter() todo lo que NO SEA un NA
+
+# Usar el operador ! antes de la función is.na()
+
+# Estar atentos a los paréntesis
+```
+
+```{r filter-na2-hint-2}
+# Probar la función is.na()
+is.na(encuesta$satisfaccion)
+
+# Seleccionar la columna satisfaccion, filtrar los no nulos y calcular el promedio
+satisfaccion <- encuesta %>% 
+  select(satisfaccion) %>% 
+  filter(!is.na(satisfaccion)) %>% 
+  pull()                    # Extrae la columna del data frame y la guarda como un vector
+
+# Calcular el promedio de satisfaccion
+mean(satisfaccion)
+```
+
+### Práctica
+
+Filtrar las personas que tengan 55 años o más del data frame `plantel`.
+
+```{r prac-fil, exercise=TRUE}
+# Filtrar empleados que tengan 55 años o más
+plantel %>% 
+  ______(______)
+```
+
+```{r prac-fil-hint-1}
+# Usar la función filer de la variable EDAD
+
+# El operador lógico que necesitamos es mayor o igual >= 
+```
+
+```{r prac-fil-hint-2}
+# Filtrar empleados que tengan 55 años o más
+plantel %>% 
+  filter(EDAD >= 55)
+```
+
+Volvamos a realizar un `left_join()` de `plantel` y de `salarios` y guardarlo en un objeto que se llame `mensuales`. Luego filtrar todo lo que no sea `NA` de la columna `PUESTO`.
+
+```{r prac-fil2, exercise = TRUE, exercise.lines=12}
+# Almacenar en un data frame llamado mensuales, un left_join de plantel y salarios
+__________ <- left_join(_______, ________, by = "ID")
+
+# Filtrar todo lo que no sea NA de la columna PUESTO. Sobrescribir el data frame mensuales
+_________ <- __________ %>% 
+  filter(____(________))
+
+# Darle un vistazo al data frame mensuales con la función glimpse()
+glimpse(mensuales)
+```
+
+```{r prac-fil2-hint-1}
+# Crear un objeto llamado mensuales
+
+# En el left_join() poner primero plantel, y luego salarios
+
+# Usar !is.na() para filtrar todo lo que no sea un NA
+```
+
+```{r prac-fil2-hint-2}
+# Almacenar en un data frame llamado mensuales, un left_join de plantel y salarios
+mensuales <- left_join(plantel, salarios, by = "ID")
+
+# Filtrar todo lo que no sea NA de la columna PUESTO. Sobrescribir el data frame mensuales
+mensuales <- mensuales %>% 
+  filter(!is.na(PUESTO))
+
+# Darle un vistazo al data frame mensuales con la función glimpse()
+glimpse(mensuales)
+```
+
+Gran momento para meter una pausa.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FlDGFrP4NgI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>
 
 ## group_by() y summarise()
 
