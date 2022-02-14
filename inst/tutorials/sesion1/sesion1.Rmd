@@ -27,7 +27,8 @@ mensuales <- plantel %>%
   filter(!is.na(PUESTO))
 
 encuesta <- read.csv("https://raw.githubusercontent.com/r4hr/kiwi2020/main/rh_ar.csv",
-                     sep = ";")
+                     sep = ";",
+                     encoding = "UTF-8")
 ```
 
 ## Sesión 1 - Introducción a Tidyverse
@@ -140,7 +141,7 @@ numeros
 texto
 ```
 
-¿Qué tipo de vector genera este código?
+**Pregunta:** ¿Qué tipo de vector genera este código?
 
 ```{r vec-ej2, eval=FALSE, echo=TRUE}
 ejercicio <- c("1", 7, 9)
@@ -332,7 +333,7 @@ _______(tidyverse)
 library(tidyverse)
 ```
 
-```{r paquetes}
+```{r paquetes2}
 quiz(
   question("¿Cuántas veces hay que instalar un paquete?",
            answer("Una sola vez por computadora", correct = TRUE, "Así es! Este es un proceso que se hace por única vez en cada máquina en la que trabajes"),
@@ -683,13 +684,13 @@ plantel %>%
 ```
 
 ```{r error2-hint-1}
-# Para filtrar por un valor de texto necesitamos dos signos iguales
+# Para filtrar por un valor específico necesitamos dos signos iguales
 ```
 
 ```{r error2-hint-2}
 # Este código contiene un error, corrígelo
 plantel %>% 
-  filter(AREA = "RRHH")
+  filter(AREA == "RRHH")
 ```
 
 Otro error habitual, cuando la columna por la que queremos filtrar es de tipo `character` o `factor` es no poner las comillas (que no son necesarias con variables numéricas). Veamos el mensaje de error.
@@ -874,4 +875,140 @@ Gran momento para meter una pausa.
 
 ## group_by() y summarise()
 
-## mutate()
+![](https://c.tenor.com/WI1L43K5gR4AAAAC/harry-potter-weasley-twins.gif){width="365"}
+
+Las funciones `group_by()` y `summarise()` se usan juntas prácticamente todo el tiempo. Son muy útiles cuando nos piden hacer algunos cálculos para poblaciones específicas o de interés. Por ejemplo, cuando decimos:
+
+-   *Quiero saber la antigüedad promedio por categoría*, agrupamos por categoría y calculando por edad.
+
+-   *Quiero saber la mediana salarial por género* estamos agrupando por género y calculando por sueldo.
+
+-   *Quiero saber la antigüedad máxima por sector* estamos agrupando por sector y calculando por antiguedad.
+
+El grupo lo creamos con `group_by()` y el cálculo lo hacemos con `summarise()`.
+
+Con `group_by()` lo que hacemos es agrupar todas las filas de un data frame y reducirlas a una cantidad más chica de filas. La cantidad de filas va a estar determinada por la cantidad de valores únicos que haya en una columna.
+
+Por otro lado `summarise()` lo que hace es añadir una columna nueva a ese data frame agrupado con algún cálculo que nos interese realizar. Esto, en la jerga de analytics o data science se le dice *hacer un cálculo de resumen estadístico*. ¿Por qué? Porque lo que intentaremos hacer es resumir por ejemplo los sueldos, a una medida estadística como la mediana, la antigüedad a un promedio, y así sucesivamente.
+
+Veamos algunos ejemplos:
+
+### Ejemplos de group_by() y summarise()
+
+Hagamos una primera prueba, calculemos los años de experiencia promedio por puesto:
+
+```{r group_by1, exercise=TRUE}
+# Ejecuta esta línea de código
+encuesta %>% 
+  group_by(puesto) %>% 
+  summarise(antiguedad_promedio = mean(anios_experiencia))
+```
+
+En el ejemplo anterior, agrupamos por la variable `puesto`. Este campo tiene 6 valores posibles (en orden alfabético): *Administrativo, Analista, Gerente, HRBP, Jefe* y *Responsable*. Por lo tanto el data frame de salido, tiene 6 filas.
+
+Con `summarise()` lo que hicimos fue añadir una columna, con el nombre `antiguedad_promedio` y el valor de cada celda es el promedio de los años de antigüedad que hay en la variable `anios_experiencia`.
+
+Los cálculos más comunes que hacemos con `summarise()` son:
+
++---------------------+--------------+
+| Cálculo             | Función      |
++:===================:+:============:+
+| Promedio            | `mean()`     |
++---------------------+--------------+
+| Mediana             | `median()`   |
++---------------------+--------------+
+| Suma                | `sum()`      |
++---------------------+--------------+
+| Contar              | `n()`        |
++---------------------+--------------+
+| Desvío Estándar     | `sd()`       |
++---------------------+--------------+
+| Máximo              | `max()`      |
++---------------------+--------------+
+| Mínimo              | `min()`      |
++---------------------+--------------+
+
+No son todas las funciones posibles, pero son las más comunes `r emo::ji("biceps")`.
+
+Hagamos un cálculo más interesante: Calcula el sueldo promedio por puesto.
+
+```{r group_by2, exercise = TRUE}
+# Calcula el sueldo promedio por puesto. 
+# Agrupa por puesto y hace el cálculo con sueldo_bruto
+encuesta %>% 
+  _______(______) %>% 
+  _________(sueldo_promedio = mean(____________))
+```
+
+```{r group_by2-hint-1}
+# Primero reemplaza los guiones por group_by para agrupar por 'puesto'.
+
+# Usá la función summarise() para calcular el promedio de 'sueldo_bruto'
+```
+
+```{r group_by2-hint-2}
+# Calcula el sueldo promedio por puesto. 
+# Agrupa por puesto y hace el cálculo con sueldo_bruto
+encuesta %>% 
+  group_by(puesto) %>% 
+  summarise(sueldo_promedio = mean(sueldo_bruto))
+```
+
+### Agrupar por más de una variable
+
+También es posible agrupar por más de una variable. Veamos el sueldo promedio por género y tipo de universidad:
+
+```{r group_by3, exercise = TRUE}
+# Ejecuta esta línea de código
+encuesta %>% 
+  group_by(genero, tipo_universidad) %>% 
+  summarise(sueldo_promedio = mean(sueldo_bruto))
+```
+
+Del código anterior podemos concluir que el tipo de universidad no hace una gran diferencia entre los salarios de las personas que estudiaron en universidades públicas o privadas, pero sí hace una gran diferencia entre quienes fueron a la universidad y quienes no. De los datos obtenidos también podemos apreciar que el género es también un factor que explica las diferencias salariales entre hombres y mujeres.
+
+El mensaje que obtenemos al agrupar por más de una variable,*\`summarise()\` has grouped output by 'genero'. You can override using the \`.groups\` argument* simplemente indica que la variable que ponemos primero va a ser la que use como *"llave"* para agrupar. **En resumen, el resultado está bien.**
+
+De la misma manera, podemos incluir más de un cálculo dentro de `summarise()`. Solo hay que separar con una coma (`","`) las nuevas columnas con las medidas de resumen estadístico que queramos hacer.
+
+Por ejemplo, calculemos el sueldo promedio y el desvío estándar según si las personas estudiaron en universidades públicas, o privadas.
+
+```{r group_by4, exercise = TRUE, exercise.lines = 10}
+# Crear un data frame eliminando a las persona que no estudiaron en la universidad
+universitarios <- encuesta %>% 
+  filter(tipo_universidad != "No estudié en la Universidad")
+
+# Calcular el sueldo promedio y el desvió estándar usando el data frame 'universitarios'
+universitarios %>% 
+  group_by(tipo_universidad) %>% 
+  summarise(sueldo_promedio = _____(_______),
+            sueldo_desvio = __(________))
+```
+
+```{r group_by4-hint-1}
+# Con filter() nos quedamos con las filas cuyo valor NO ES "No estudié en la Universidad"
+
+# Reemplazar los espacios en blanco con la función y la variable (sueldo_bruto) que corresponden.
+```
+
+```{r group_by4-hint-2}
+# Crear un data frame eliminando a las persona que no estudiaron en la universidad
+universitarios <- encuesta %>% 
+  filter(tipo_universidad != "No estudié en la Universidad")
+
+# Calcular el sueldo promedio y el desvió estándar usando el data frame 'universitarios'
+universitarios %>% 
+  group_by(tipo_universidad) %>% 
+  summarise(sueldo_promedio = mean(sueldo_bruto),
+            sueldo_desvio = sd(sueldo_bruto))
+```
+
+
+### Ejercicio group_by() + summarise()
+
+Del data frame `mensuales` calcular el promedio salarial por puesto. No hace falta guardar los resultados en un objeto.
+
+
+
+
+# mutate()
